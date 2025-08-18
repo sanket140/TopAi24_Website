@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poolr - School Ridesharing App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-out',
+                        'slide-up': 'slideUp 0.8s ease-out',
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s ease-in-out infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'drive': 'drive 4s ease-in-out infinite',
+                        'route': 'route 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(40px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        },
+                        drive: {
+                            '0%, 100%': { transform: 'translateX(0px)' },
+                            '50%': { transform: 'translateX(30px)' }
+                        },
+                        route: {
+                            '0%': { strokeDashoffset: '100' },
+                            '100%': { strokeDashoffset: '0' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .gradient-blue {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+        }
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hover-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .route-line {
+            stroke-dasharray: 10;
+            animation: route 3s ease-in-out infinite;
+        }
+        .car-animation {
+            animation: drive 4s ease-in-out infinite;
+        }
+        .safety-badge {
+            position: relative;
+            overflow: hidden;
+        }
+        .safety-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shine 2s infinite;
+        }
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Hero Section -->
+    <div class="relative min-h-screen gradient-blue overflow-hidden">
+        <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+        <div class="relative z-10 container mx-auto px-6 py-20">
+            <div class="text-center animate-fade-in">
+                <div class="text-8xl mb-6 animate-float">🚗</div>
+                <h1 class="text-6xl md:text-8xl font-bold text-white mb-6 animate-slide-up">
+                    Poolr
+                </h1>
+                <p class="text-xl md:text-2xl text-white/90 mb-12 max-w-3xl mx-auto animate-slide-up" style="animation-delay: 0.2s">
+                    Safe, scheduled ridesharing exclusively for parents of school-going kids
+                </p>
+                <button  onclick="document.getElementById('problem-section').scrollIntoView({ behavior: 'smooth' })" class="bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 animate-slide-up shadow-2xl" style="animation-delay: 0.4s">
+                    Join Parent Network
+                </button>
+            </div>
+        </div>
+        
+        <!-- Floating Car Elements -->
+        <div class="absolute top-20 left-10 w-20 h-20 bg-white/10 rounded-full flex items-center justify-center animate-float car-animation text-2xl" style="animation-delay: 1s">🚙</div>
+        <div class="absolute top-40 right-20 w-16 h-16 bg-white/10 rounded-full flex items-center justify-center animate-float text-xl" style="animation-delay: 2s">🏫</div>
+        <div class="absolute bottom-40 left-20 w-12 h-12 bg-white/10 rounded-full flex items-center justify-center animate-float text-lg" style="animation-delay: 3s">👨‍👩‍👧‍👦</div>
+    </div>
+
+    <!-- Problem Section -->
+    <section class="py-20 bg-white" id="problem-section">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 animate-fade-in">
+                <h2 class="text-5xl font-bold text-gradient mb-6">The Problem</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mb-8"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center p-8 rounded-2xl hover-lift bg-gradient-to-br from-red-50 to-red-100 border border-red-200">
+                    <div class="text-6xl mb-4 animate-bounce-slow">😰</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Daily Struggle</h3>
+                    <p class="text-gray-600">Parents struggle with tight schedules for school drop-offs and pick-ups</p>
+                </div>
+                
+                <div class="text-center p-8 rounded-2xl hover-lift bg-gradient-to-br from-yellow-50 to-yellow-100 border border-yellow-200">
+                    <div class="text-6xl mb-4 animate-bounce-slow" style="animation-delay: 0.5s">💸</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Costly Solutions</h3>
+                    <p class="text-gray-600">Public transport or paid drivers can be costly, unreliable, or unsafe</p>
+                </div>
+                
+                <div class="text-center p-8 rounded-2xl hover-lift bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200">
+                    <div class="text-6xl mb-4 animate-bounce-slow" style="animation-delay: 1s">👀</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">No Coordination</h3>
+                    <p class="text-gray-600">No easy way to coordinate rides with other trusted parents</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="py-20 bg-gradient-to-br from-blue-50 to-indigo-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">The Solution</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mb-8"></div>
+                <div class="max-w-4xl mx-auto">
+                    <p class="text-2xl text-gray-700 mb-8">
+                        🚗 <strong>Poolr</strong> connects verified parents for safe, scheduled school rides
+                    </p>
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="p-6 bg-white rounded-xl shadow-lg hover-lift safety-badge">
+                            <div class="text-4xl mb-4">👨‍👩‍👧‍👦</div>
+                            <p class="text-lg font-semibold">Verified Parent Network</p>
+                        </div>
+                        <div class="p-6 bg-white rounded-xl shadow-lg hover-lift">
+                            <div class="text-4xl mb-4">📍</div>
+                            <p class="text-lg font-semibold">Live Tracking</p>
+                        </div>
+                        <div class="p-6 bg-white rounded-xl shadow-lg hover-lift">
+                            <div class="text-4xl mb-4">💸</div>
+                            <p class="text-lg font-semibold">Easy Tipping</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video Section -->
+            <div class="max-w-4xl mx-auto mb-16">
+                <div class="relative rounded-3xl overflow-hidden shadow-2xl hover-lift">
+                    <video width="100%" height="400" controls class="w-full">
+                        <source src="Poolr 1f9eb79c9fa4802faab3c37f30e6e774/poolr.mp4" type="video/mp4" />
+                    </video>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">Key Features</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mb-8"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-green-50 to-green-100 border border-green-200 group">
+                    <div class="text-5xl mb-4 group-hover:animate-bounce">🛡️</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Verified Parent Network</h3>
+                    <p class="text-gray-600">Every user goes through verification for a safe, trusted community</p>
+                </div>
+
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 group">
+                    <div class="text-5xl mb-4 group-hover:animate-bounce">📅</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Ride Scheduling</h3>
+                    <p class="text-gray-600">Easily schedule pickups and drop-offs with other parents</p>
+                </div>
+
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200 group">
+                    <div class="text-5xl mb-4 group-hover:animate-bounce">📍</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Live Ride Tracking</h3>
+                    <p class="text-gray-600">Real-time GPS tracking for peace of mind and transparency</p>
+                </div>
+
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-orange-50 to-orange-100 border border-orange-200 group">
+                    <div class="text-5xl mb-4 group-hover:animate-bounce">💸</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Easy Payments</h3>
+                    <p class="text-gray-600">Simple tipping via Apple Pay, Stripe, or card</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Route Demo -->
+    <section class="py-20 bg-gradient-to-br from-gray-50 to-gray-100">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">How It Works</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mb-8"></div>
+            </div>
+
+            <div class="max-w-4xl mx-auto">
+                <div class="relative bg-white rounded-3xl p-12 shadow-2xl">
+                    <!-- Route Visualization -->
+                    <svg width="100%" height="300" viewBox="0 0 800 300" class="mb-8">
+                        <!-- Route line -->
+                        <path d="M50 150 Q200 50 400 150 Q600 250 750 150" 
+                              stroke="#74b9ff" 
+                              stroke-width="4" 
+                              fill="none" 
+                              class="route-line"/>
+                        
+                        <!-- Home -->
+                        <circle cx="50" cy="150" r="20" fill="#00b894" class="animate-pulse"/>
+                        <text x="50" y="190" text-anchor="middle" class="text-sm font-semibold">🏠 Home</text>
+                        
+                        <!-- School -->
+                        <circle cx="750" cy="150" r="20" fill="#e17055" class="animate-pulse"/>
+                        <text x="750" y="190" text-anchor="middle" class="text-sm font-semibold">🏫 School</text>
+                        
+                        <!-- Other homes -->
+                        <circle cx="200" cy="100" r="15" fill="#fdcb6e" class="animate-pulse" style="animation-delay: 0.5s"/>
+                        <text x="200" y="80" text-anchor="middle" class="text-xs">🏠</text>
+                        
+                        <circle cx="600" cy="200" r="15" fill="#fdcb6e" class="animate-pulse" style="animation-delay: 1s"/>
+                        <text x="600" y="230" text-anchor="middle" class="text-xs">🏠</text>
+                        
+                        <!-- Moving car -->
+                        <g class="car-animation">
+                            <circle cx="400" cy="150" r="12" fill="#74b9ff"/>
+                            <text x="400" y="155" text-anchor="middle" class="text-lg">🚗</text>
+                        </g>
+                    </svg>
+
+                    <div class="grid md:grid-cols-3 gap-8 text-center">
+                        <div class="p-6 rounded-xl bg-blue-50 hover-lift">
+                            <div class="text-3xl mb-4">1️⃣</div>
+                            <h3 class="font-bold text-lg mb-2">Schedule Ride</h3>
+                            <p class="text-gray-600">Parents coordinate pickup times and routes</p>
+                        </div>
+                        <div class="p-6 rounded-xl bg-green-50 hover-lift">
+                            <div class="text-3xl mb-4">2️⃣</div>
+                            <h3 class="font-bold text-lg mb-2">Track Live</h3>
+                            <p class="text-gray-600">Monitor the ride in real-time with GPS</p>
+                        </div>
+                        <div class="p-6 rounded-xl bg-orange-50 hover-lift">
+                            <div class="text-3xl mb-4">3️⃣</div>
+                            <h3 class="font-bold text-lg mb-2">Easy Payment</h3>
+                            <p class="text-gray-600">Tip the driver securely after completion</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+          <div class="text-center mt-12">
+                <a href="/contact"
+                class="inline-block bg-indigo-600 text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-indigo-700 transform hover:scale-105 transition-all duration-300 shadow-lg">
+                    Learn More
+                </a>
+            </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">Architecture</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mb-8"></div>
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="hover-lift">
+                    <img src="Poolr%201f9eb79c9fa4802faab3c37f30e6e774/image.png" 
+                         alt="Architecture Diagram" 
+                         class="w-full rounded-3xl shadow-2xl">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technologies Section -->
+    <section class="py-20 bg-gradient-to-br from-blue-50 to-indigo-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">Technologies Used</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mb-8"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Flutter</h3>
+                    <p class="text-gray-600">Cross-platform mobile development</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">AWS API Gateway</h3>
+                    <p class="text-gray-600">Secure API management</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">AWS Lambda</h3>
+                    <p class="text-gray-600">Serverless backend processing</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Stripe</h3>
+                    <p class="text-gray-600">Secure payment processing</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Firebase</h3>
+                    <p class="text-gray-600">Authentication and notifications</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Google Maps</h3>
+                    <p class="text-gray-600">Location services and navigation</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Admin Portal</h3>
+                    <p class="text-gray-600">Ride monitoring and management</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Webhooks</h3>
+                    <p class="text-gray-600">Real-time event communication</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Safety Features -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">Safety First</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mb-8"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center p-8 rounded-2xl hover-lift bg-gradient-to-br from-green-50 to-green-100 border border-green-200 safety-badge">
+                    <div class="text-5xl mb-4">✅</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Verified Parents</h3>
+                    <p class="text-gray-600">Background checks and document verification</p>
+                </div>
+
+                <div class="text-center p-8 rounded-2xl hover-lift bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 safety-badge">
+                    <div class="text-5xl mb-4">📱</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Real-time Updates</h3>
+                    <p class="text-gray-600">Instant notifications and live tracking</p>
+                </div>
+
+                <div class="text-center p-8 rounded-2xl hover-lift bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200 safety-badge">
+                    <div class="text-5xl mb-4">🚨</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Emergency Support</h3>
+                    <p class="text-gray-600">24/7 support and emergency contacts</p>
+                </div>
+
+                <div class="text-center p-8 rounded-2xl hover-lift bg-gradient-to-br from-orange-50 to-orange-100 border border-orange-200 safety-badge">
+                    <div class="text-5xl mb-4">⭐</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Rating System</h3>
+                    <p class="text-gray-600">Community-driven trust and feedback</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 gradient-blue">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-5xl font-bold text-white mb-6">Let's Build Something Great Together</h2>
+            <p class="text-xl text-white/90 mb-12 max-w-2xl mx-auto">
+                Have an idea or project in mind? We are just a message away.
+            </p>
+            <a href="https://www.topai24.com/" 
+               class="inline-block bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-2xl">
+                Let's turn your vision into reality
+            </a>
+        </div>
+    </section>
+
+    <script>
+        // Add scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'all 0.8s ease-out';
+            observer.observe(section);
+        });
+
+        // Add interactive hover effects
+        document.querySelectorAll('.hover-lift').forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                element.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                element.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Interactive route animation
+        function animateRoute() {
+            const car = document.querySelector('.car-animation');
+            const routePath = document.querySelector('.route-line');
+            
+            // Add click interaction to route
+            routePath.addEventListener('click', () => {
+                car.style.animation = 'none';
+                setTimeout(() => {
+                    car.style.animation = 'drive 2s ease-in-out';
+                }, 100);
+            });
+        }
+
+        // Safety badge shine effect
+        document.querySelectorAll('.safety-badge').forEach((badge, index) => {
+            setTimeout(() => {
+                badge.classList.add('animate-pulse');
+            }, index * 500);
+        });
+
+        // Initialize route animation
+        setTimeout(animateRoute, 1000);
+
+        // Add ride scheduling simulation
+        function simulateRideScheduling() {
+            const scheduleButton = document.querySelector('button');
+            let isScheduling = false;
+            
+            scheduleButton.addEventListener('click', () => {
+                if (!isScheduling) {
+                    isScheduling = true;
+                    scheduleButton.textContent = 'Scheduling Ride...';
+                    scheduleButton.classList.add('animate-pulse');
+                    
+                    setTimeout(() => {
+                        scheduleButton.textContent = 'Ride Scheduled! 🎉';
+                        scheduleButton.classList.remove('animate-pulse');
+                        scheduleButton.classList.add('bg-green-500');
+                        
+                        setTimeout(() => {
+                            scheduleButton.textContent = 'Join Parent Network';
+                            scheduleButton.classList.remove('bg-green-500');
+                            isScheduling = false;
+                        }, 2000);
+                    }, 2000);
+                }
+            });
+        }
+
+        // Initialize ride scheduling simulation
+        setTimeout(simulateRideScheduling, 2000);
+    </script>
+</body>
+</html>

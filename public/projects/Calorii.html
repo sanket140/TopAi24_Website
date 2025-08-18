@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calorii - Wellness App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-out',
+                        'slide-up': 'slideUp 0.8s ease-out',
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s ease-in-out infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(40px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hover-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .parallax-bg {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Hero Section -->
+    <div class="relative min-h-screen gradient-bg overflow-hidden">
+        <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+        <div class="relative z-10 container mx-auto px-6 py-20">
+            <div class="text-center animate-fade-in">
+                <div class="text-8xl mb-6 animate-float">🏋️</div>
+                <h1 class="text-6xl md:text-8xl font-bold text-white mb-6 animate-slide-up">
+                    Calorii
+                </h1>
+                <p class="text-xl md:text-2xl text-white/90 mb-12 max-w-3xl mx-auto animate-slide-up" style="animation-delay: 0.2s">
+                    Your personalized wellness hub with expert-led, evidence-based health and nutrition information
+                </p>
+                <button onclick="document.getElementById('problem-section').scrollIntoView({ behavior: 'smooth' })" class="bg-white text-purple-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 animate-slide-up shadow-2xl" style="animation-delay: 0.4s">
+                    Explore Features
+                </button>
+            </div>
+        </div>
+        
+        <!-- Floating Elements -->
+        <div class="absolute top-20 left-10 w-20 h-20 bg-white/10 rounded-full animate-float" style="animation-delay: 1s"></div>
+        <div class="absolute top-40 right-20 w-16 h-16 bg-white/10 rounded-full animate-float" style="animation-delay: 2s"></div>
+        <div class="absolute bottom-40 left-20 w-12 h-12 bg-white/10 rounded-full animate-float" style="animation-delay: 3s"></div>
+    </div>
+
+    <!-- Problem Section -->
+    <section class="py-20 bg-white" id="problem-section">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 animate-fade-in">
+                <h2 class="text-5xl font-bold text-gradient mb-6">The Problem</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-purple-500 to-blue-500 mx-auto mb-8"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center p-8 rounded-2xl hover-lift bg-gradient-to-br from-red-50 to-red-100 border border-red-200">
+                    <div class="text-6xl mb-4 animate-bounce-slow">❓</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Who do you trust?</h3>
+                    <p class="text-gray-600">People feel overwhelmed by misinformation in health and fitness</p>
+                </div>
+                
+                <div class="text-center p-8 rounded-2xl hover-lift bg-gradient-to-br from-yellow-50 to-yellow-100 border border-yellow-200">
+                    <div class="text-6xl mb-4 animate-bounce-slow" style="animation-delay: 0.5s">📉</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Science vs Trends</h3>
+                    <p class="text-gray-600">Which advice is science-based vs. just a trend?</p>
+                </div>
+                
+                <div class="text-center p-8 rounded-2xl hover-lift bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200">
+                    <div class="text-6xl mb-4 animate-bounce-slow" style="animation-delay: 1s">😵‍💫</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Information Overload</h3>
+                    <p class="text-gray-600">Information is scattered, unverified, or overly complex</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="py-20 bg-gradient-to-br from-purple-50 to-blue-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">The Solution</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-purple-500 to-blue-500 mx-auto mb-8"></div>
+                <p class="text-2xl text-gray-700 max-w-4xl mx-auto">
+                    📚 <strong>Calorii</strong> is a wellness app that simplifies expert-led, evidence-based health and nutrition information.
+                </p>
+            </div>
+
+            <!-- Video Section -->
+            <div class="max-w-4xl mx-auto mb-16">
+                <div class="relative rounded-3xl overflow-hidden shadow-2xl hover-lift">
+                    <video width="100%" height="400" controls class="w-full">
+                        <source src="Calorii 1f0eb79c9fa4810bad15c44ac5459ee5/calorii_mobile_application.mp4" type="video/mp4" />
+                    </video>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">Key Features</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-purple-500 to-blue-500 mx-auto mb-8"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-green-50 to-green-100 border border-green-200 group">
+                    <div class="text-5xl mb-4 group-hover:animate-bounce">🎥</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Expert Video Content</h3>
+                    <p class="text-gray-600">Bite-sized, engaging videos created by certified experts</p>
+                </div>
+
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 group">
+                    <div class="text-5xl mb-4 group-hover:animate-bounce">🔍</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Topic-Based Learning</h3>
+                    <p class="text-gray-600">Structured topics like macronutrients, inflammation, weight management</p>
+                </div>
+
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200 group">
+                    <div class="text-5xl mb-4 group-hover:animate-bounce">❓</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">FAQ & Resources</h3>
+                    <p class="text-gray-600">Answers to frequently asked questions and pre-vetted research</p>
+                </div>
+
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-orange-50 to-orange-100 border border-orange-200 group">
+                    <div class="text-5xl mb-4 group-hover:animate-bounce">🔐</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Premium Access</h3>
+                    <p class="text-gray-600">Subscription-based premium content and advanced features</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Overview Section -->
+    <section class="py-20 bg-gradient-to-br from-gray-50 to-gray-100">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">Application Overview</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-purple-500 to-blue-500 mx-auto mb-8"></div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-12">
+                <div class="text-center group">
+                    <div class="mb-8 hover-lift">
+                        <img src="Calorii%201f0eb79c9fa4810bad15c44ac5459ee5/Screenshot_2025-05-23_at_9.31.59_PM.png" 
+                             alt="Home Screen" 
+                             class="w-64 mx-auto rounded-3xl shadow-2xl group-hover:shadow-3xl transition-all duration-300">
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Home</h3>
+                    <p class="text-gray-600">Your personalized wellness hub with daily tips, tools, and bite-sized content</p>
+                </div>
+
+                <div class="text-center group">
+                    <div class="mb-8 hover-lift">
+                        <img src="Calorii%201f0eb79c9fa4810bad15c44ac5459ee5/Screenshot_2025-05-23_at_9.33.05_PM.png" 
+                             alt="Calculator Options" 
+                             class="w-64 mx-auto rounded-3xl shadow-2xl group-hover:shadow-3xl transition-all duration-300">
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Nutrition Calculator</h3>
+                    <p class="text-gray-600">Choose between detailed calorie tracking or intuitive hand-portion methods</p>
+                </div>
+
+                <div class="text-center group">
+                    <div class="mb-8 hover-lift">
+                        <img src="Calorii%201f0eb79c9fa4810bad15c44ac5459ee5/Screenshot_2025-05-23_at_10.03.21_PM.png" 
+                             alt="Learning Module" 
+                             class="w-64 mx-auto rounded-3xl shadow-2xl group-hover:shadow-3xl transition-all duration-300">
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Learning Module</h3>
+                    <p class="text-gray-600">Learn through short, expert-backed videos and digestible insights</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">Architecture</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-purple-500 to-blue-500 mx-auto mb-8"></div>
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="hover-lift">
+                    <img src="Calorii%201f0eb79c9fa4810bad15c44ac5459ee5/image.png" 
+                         alt="Architecture Diagram" 
+                         class="w-full rounded-3xl shadow-2xl">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technologies Section -->
+    <section class="py-20 bg-gradient-to-br from-purple-50 to-blue-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">Technologies Used</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-purple-500 to-blue-500 mx-auto mb-8"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Flutter</h3>
+                    <p class="text-gray-600">Cross-platform mobile development for consistent user experience</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">AWS API Gateway</h3>
+                    <p class="text-gray-600">Secure entry point for all client-server interactions</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">AWS Lambda</h3>
+                    <p class="text-gray-600">Serverless backend logic with automatic scaling</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Razorpay</h3>
+                    <p class="text-gray-600">Secure payment processing for subscriptions</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Firebase</h3>
+                    <p class="text-gray-600">User authentication and real-time notifications</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">YouTube API</h3>
+                    <p class="text-gray-600">Dynamic video content integration and management</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 gradient-bg">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-5xl font-bold text-white mb-6">Let's Build Something Great Together</h2>
+            <p class="text-xl text-white/90 mb-12 max-w-2xl mx-auto">
+                Have an idea or project in mind? We are just a message away.
+            </p>
+            <a href="https://www.topai24.com/" 
+               class="inline-block bg-white text-purple-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-2xl">
+                Let's turn your vision into reality
+            </a>
+        </div>
+    </section>
+
+    <script>
+        // Add scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'all 0.8s ease-out';
+            observer.observe(section);
+        });
+
+        // Add interactive hover effects
+        document.querySelectorAll('.hover-lift').forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                element.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                element.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Smooth scrolling for buttons
+        document.querySelectorAll('button, a[href^="#"]').forEach(button => {
+            button.addEventListener('click', (e) => {
+                if (button.getAttribute('href') && button.getAttribute('href').startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(button.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

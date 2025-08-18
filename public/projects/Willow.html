@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Willow - Child Services Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-out',
+                        'slide-up': 'slideUp 0.8s ease-out',
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s ease-in-out infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'spin-slow': 'spin 8s linear infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(40px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .gradient-green {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+        .gradient-blue {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        }
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hover-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Hero Section -->
+    <div class="relative min-h-screen gradient-blue overflow-hidden">
+        <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+        <div class="relative z-10 container mx-auto px-6 py-20">
+            <div class="text-center animate-fade-in">
+                <div class="text-8xl mb-6 animate-float">👶</div>
+                <h1 class="text-6xl md:text-8xl font-bold text-white mb-6 animate-slide-up">
+                    Willow
+                </h1>
+                <p class="text-xl md:text-2xl text-white/90 mb-4 animate-slide-up" style="animation-delay: 0.2s">
+                    Your trusted child services platform
+                </p>
+                <p class="text-lg text-white/80 mb-12 max-w-3xl mx-auto animate-slide-up" style="animation-delay: 0.3s">
+                    Find, book, and pay for trusted child-related services all in one place
+                </p>
+                <button onclick="document.getElementById('problem-section').scrollIntoView({ behavior: 'smooth' })" class="bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 animate-slide-up shadow-2xl" style="animation-delay: 0.4s">
+                    Start Discovering
+                </button>
+            </div>
+        </div>
+        
+        <!-- Floating Icons -->
+        <div class="absolute top-20 left-10 w-16 h-16 bg-white/10 rounded-full flex items-center justify-center animate-float text-2xl" style="animation-delay: 1s">👩‍👧</div>
+        <div class="absolute top-40 right-20 w-20 h-20 bg-white/10 rounded-full flex items-center justify-center animate-float text-3xl" style="animation-delay: 2s">🧸</div>
+        <div class="absolute bottom-40 left-20 w-12 h-12 bg-white/10 rounded-full flex items-center justify-center animate-float text-xl" style="animation-delay: 3s">🏫</div>
+    </div>
+
+    <!-- Problem Section -->
+    <section class="py-20 bg-white" id="problem-section">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 animate-fade-in">
+                <h2 class="text-5xl font-bold text-gradient mb-6">The Problem</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mb-8"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-1 gap-8 max-w-3xl mx-auto">
+                <div class="text-left p-8 rounded-2xl hover-lift bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200">
+                    <p class="text-xl text-gray-700 mb-4">👩‍👧‍👦 As a busy parent, finding reliable services for your children—like babysitting, camps, lessons, or health services—can be stressful and time-consuming.</p>
+                    <p class="text-xl text-gray-700">💬 You don't always know who to trust, how to book, or how to keep track of everything in one place.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="py-20 bg-gradient-to-br from-blue-50 to-indigo-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">The Solution</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mb-8"></div>
+                <div class="max-w-4xl mx-auto">
+                    <p class="text-2xl text-gray-700 mb-6">
+                        📲 <strong>Willow</strong> is your one-stop app to <strong>find, book, and pay</strong> for trusted child-related services.
+                    </p>
+                    <div class="grid md:grid-cols-2 gap-8 text-left">
+                        <div class="flex items-center space-x-4 p-4 bg-white rounded-xl shadow-lg hover-lift">
+                            <div class="text-3xl">🔍</div>
+                            <p class="text-lg">Browse top-rated providers and read real parent reviews</p>
+                        </div>
+                        <div class="flex items-center space-x-4 p-4 bg-white rounded-xl shadow-lg hover-lift">
+                            <div class="text-3xl">✅</div>
+                            <p class="text-lg">Dual confirmation system ensures transparency</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Demo Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto">
+                <video width="100%" height="400" controls class="rounded-2xl shadow-2xl hover-lift">
+                    <source src="Willow 1f9eb79c9fa480d69698c732aa94a976/willow.mp4" type="video/mp4" />
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20 bg-gradient-to-br from-blue-50 to-indigo-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">Key Features</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mb-8"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200 group">
+                    <div class="text-5xl mb-4 group-hover:animate-bounce">🗂️</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Multi-Category Booking</h3>
+                    <p class="text-gray-600">Browse and book from services like babysitting, camps, health, and lessons—all in one app.</p>
+                </div>
+
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 group">
+                    <div class="text-5xl mb-4 group-hover:animate-bounce">✅</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Service Confirmation</h3>
+                    <p class="text-gray-600">Dual confirmation system ensures secure, transparent service delivery.</p>
+                </div>
+
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-green-50 to-green-100 border border-green-200 group">
+                    <div class="text-5xl mb-4 group-hover:animate-bounce">💳</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Integrated Payments</h3>
+                    <p class="text-gray-600">Secure payments via Stripe, Apple Pay, and more with real-time scheduling.</p>
+                </div>
+
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-orange-50 to-orange-100 border border-orange-200 group">
+                    <div class="text-5xl mb-4 group-hover:animate-bounce">⭐</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Verified Reviews</h3>
+                    <p class="text-gray-600">Parent-generated reviews help you choose reliable providers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">Architecture</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mb-8"></div>
+            </div>
+            
+            <div class="max-w-3xl mx-auto hover-lift">
+                <img src="Willow%201f9eb79c9fa480d69698c732aa94a976/image.png" 
+                     alt="Architecture Diagram" 
+                     class="w-full rounded-3xl shadow-2xl">
+            </div>
+        </div>
+    </section>
+
+    <!-- Technologies Section -->
+    <section class="py-20 bg-gradient-to-br from-blue-50 to-indigo-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">Technologies Used</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mb-8"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Flutter</h3>
+                    <p class="text-gray-600">Cross-platform mobile development</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">AWS API Gateway</h3>
+                    <p class="text-gray-600">Secure API management and routing</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">AWS Lambda</h3>
+                    <p class="text-gray-600">Serverless backend processing</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Stripe</h3>
+                    <p class="text-gray-600">Secure payment processing</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Webhooks</h3>
+                    <p class="text-gray-600">Real-time event communication</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Admin Portal</h3>
+                    <p class="text-gray-600">Content management and analytics</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Firebase</h3>
+                    <p class="text-gray-600">User authentication and notifications</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 gradient-blue">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-5xl font-bold text-white mb-6">Let's Build Something Great Together</h2>
+            <p class="text-xl text-white/90 mb-12 max-w-2xl mx-auto">
+                Have an idea or project in mind? We are just a message away.
+            </p>
+            <a href="https://www.topai24.com/" 
+               class="inline-block bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-2xl">
+                Let's turn your vision into reality
+            </a>
+        </div>
+    </section>
+
+    <script>
+        // Add scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'all 0.8s ease-out';
+            observer.observe(section);
+        });
+
+        // Add interactive hover effects
+        document.querySelectorAll('.hover-lift').forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                element.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                element.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

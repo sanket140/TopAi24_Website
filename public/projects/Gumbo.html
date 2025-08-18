@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gumbo - Collaborative Event Memory App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-out',
+                        'slide-up': 'slideUp 0.8s ease-out',
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s ease-in-out infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'wiggle': 'wiggle 1s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(40px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        },
+                        wiggle: {
+                            '0%, 100%': { transform: 'rotate(-3deg)' },
+                            '50%': { transform: 'rotate(3deg)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .gradient-orange {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+        }
+        .gradient-pink {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        }
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hover-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            animation: photoSlideIn 1s ease-out;
+        }
+        @keyframes photoSlideIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .memory-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1rem;
+            transition: all 0.3s ease;
+        }
+        .memory-card:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Hero Section -->
+    <div class="relative min-h-screen gradient-pink overflow-hidden">
+        <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+        <div class="relative z-10 container mx-auto px-6 py-20">
+            <div class="text-center animate-fade-in">
+                <div class="text-8xl mb-6 animate-float">📸</div>
+                <h1 class="text-6xl md:text-8xl font-bold text-white mb-6 animate-slide-up">
+                    Gumbo
+                </h1>
+                <p class="text-xl md:text-2xl text-white/90 mb-12 max-w-3xl mx-auto animate-slide-up" style="animation-delay: 0.2s">
+                    The collaborative event memory app that brings all your guests' photos and videos into one shared memory wall
+                </p>
+                <button onclick="document.getElementById('problem-section').scrollIntoView({ behavior: 'smooth' })" class="bg-white text-pink-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 animate-slide-up shadow-2xl" style="animation-delay: 0.4s">
+                    Create Memory Wall
+                </button>
+            </div>
+        </div>
+        
+        <!-- Floating Photo Elements -->
+        <div class="absolute top-20 left-10 w-20 h-20 bg-white/10 rounded-lg flex items-center justify-center animate-float text-2xl" style="animation-delay: 1s">📷</div>
+        <div class="absolute top-40 right-20 w-16 h-16 bg-white/10 rounded-lg flex items-center justify-center animate-float text-xl" style="animation-delay: 2s">🎉</div>
+        <div class="absolute bottom-40 left-20 w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center animate-float text-lg" style="animation-delay: 3s">💾</div>
+    </div>
+
+    <!-- Problem Section -->
+    <section class="py-20 bg-white" id="problem-section">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 animate-fade-in">
+                <h2 class="text-5xl font-bold text-gradient mb-6">The Problem</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-pink-500 to-orange-500 mx-auto mb-8"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center p-8 rounded-2xl hover-lift bg-gradient-to-br from-red-50 to-red-100 border border-red-200">
+                    <div class="text-6xl mb-4 animate-wiggle">📸</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Scattered Memories</h3>
+                    <p class="text-gray-600">Great moments are scattered across everyone's devices</p>
+                </div>
+                
+                <div class="text-center p-8 rounded-2xl hover-lift bg-gradient-to-br from-yellow-50 to-yellow-100 border border-yellow-200">
+                    <div class="text-6xl mb-4 animate-wiggle" style="animation-delay: 0.5s">📤</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Sharing Hassle</h3>
+                    <p class="text-gray-600">Sharing photos later is messy, inconvenient, or forgotten</p>
+                </div>
+                
+                <div class="text-center p-8 rounded-2xl hover-lift bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200">
+                    <div class="text-6xl mb-4 animate-wiggle" style="animation-delay: 1s">😩</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Missing Moments</h3>
+                    <p class="text-gray-600">Hosts and guests miss out on reliving the full experience together</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="py-20 bg-gradient-to-br from-pink-50 to-orange-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">The Solution</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-pink-500 to-orange-500 mx-auto mb-8"></div>
+                <div class="max-w-4xl mx-auto">
+                    <p class="text-2xl text-gray-700 mb-8">
+                        🎉 <strong>Gumbo</strong> brings all your event memories together in one place
+                    </p>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="p-6 bg-white rounded-xl shadow-lg hover-lift">
+                            <div class="text-4xl mb-4">📱</div>
+                            <p class="text-lg">Hosts create an event and share a code</p>
+                        </div>
+                        <div class="p-6 bg-white rounded-xl shadow-lg hover-lift">
+                            <div class="text-4xl mb-4">💾</div>
+                            <p class="text-lg">Guests upload, view, and download media in real-time</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video Section -->
+            <div class="max-w-4xl mx-auto mb-16">
+                <div class="relative rounded-3xl overflow-hidden shadow-2xl hover-lift">
+                    <video width="100%" height="400" controls class="w-full">
+                        <source src="Gumbo 1f9eb79c9fa48086b32be264bf280fa4/Gumbo_Mobile_App.mp4" type="video/mp4" />
+                    </video>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">Key Features</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-pink-500 to-orange-500 mx-auto mb-8"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200 group">
+                    <div class="text-5xl mb-4 group-hover:animate-bounce">🥳</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Event-Based Memory Walls</h3>
+                    <p class="text-gray-600">Create or join events using unique invite codes</p>
+                </div>
+
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-green-50 to-green-100 border border-green-200 group">
+                    <div class="text-5xl mb-4 group-hover:animate-bounce">🎨</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">In-App Editing Tools</h3>
+                    <p class="text-gray-600">Apply filters, crop images, and trim videos directly in the app</p>
+                </div>
+
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 group">
+                    <div class="text-5xl mb-4 group-hover:animate-bounce">🔐</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Private & Controlled</h3>
+                    <p class="text-gray-600">Only invited guests can view or contribute to events</p>
+                </div>
+
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-orange-50 to-orange-100 border border-orange-200 group">
+                    <div class="text-5xl mb-4 group-hover:animate-bounce">⬇️</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Download & Share</h3>
+                    <p class="text-gray-600">Host-controlled download permissions for easy sharing</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Overview Section -->
+    <section class="py-20 bg-gradient-to-br from-gray-50 to-gray-100">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">Application Overview</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-pink-500 to-orange-500 mx-auto mb-8"></div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-12">
+                <div class="text-center group">
+                    <div class="mb-8 hover-lift">
+                        <img src="Gumbo%201f9eb79c9fa48086b32be264bf280fa4/IMG_3098.png" 
+                             alt="Create Event" 
+                             class="w-64 mx-auto rounded-3xl shadow-2xl group-hover:shadow-3xl transition-all duration-300">
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Create an Event</h3>
+                    <p class="text-gray-600">Follow our easy step-by-step process to create your event and generate a unique access code</p>
+                </div>
+
+                <div class="text-center group">
+                    <div class="mb-8 hover-lift">
+                        <img src="Gumbo%201f9eb79c9fa48086b32be264bf280fa4/IMG_5698-scaled.jpeg" 
+                             alt="Upload Content" 
+                             class="w-64 mx-auto rounded-3xl shadow-2xl group-hover:shadow-3xl transition-all duration-300">
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Upload Content</h3>
+                    <p class="text-gray-600">Capture the essence of your event by sharing photos and videos with all guests</p>
+                </div>
+
+                <div class="text-center group">
+                    <div class="mb-8 hover-lift">
+                        <img src="Gumbo%201f9eb79c9fa48086b32be264bf280fa4/IMG_3099.png" 
+                             alt="View Shared Content" 
+                             class="w-64 mx-auto rounded-3xl shadow-2xl group-hover:shadow-3xl transition-all duration-300">
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">View Shared Content</h3>
+                    <p class="text-gray-600">Revisit your memory wall anytime to relive those precious moments</p>
+                </div>
+            </div>
+
+            <!-- Interactive Memory Wall Demo -->
+            <div class="mt-20">
+                <h3 class="text-3xl font-bold text-center text-gray-800 mb-12">Interactive Memory Wall</h3>
+                <div class="photo-grid max-w-4xl mx-auto">
+                    <div class="memory-card bg-gradient-to-br from-pink-200 to-purple-200 h-48 flex items-center justify-center text-4xl hover-lift">
+                        📸
+                    </div>
+                    <div class="memory-card bg-gradient-to-br from-blue-200 to-teal-200 h-48 flex items-center justify-center text-4xl hover-lift">
+                        🎥
+                    </div>
+                    <div class="memory-card bg-gradient-to-br from-yellow-200 to-orange-200 h-48 flex items-center justify-center text-4xl hover-lift">
+                        🎉
+                    </div>
+                    <div class="memory-card bg-gradient-to-br from-green-200 to-blue-200 h-48 flex items-center justify-center text-4xl hover-lift">
+                        💫
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">Architecture</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-pink-500 to-orange-500 mx-auto mb-8"></div>
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="hover-lift">
+                    <img src="Gumbo%201f9eb79c9fa48086b32be264bf280fa4/image.png" 
+                         alt="Architecture Diagram" 
+                         class="w-full rounded-3xl shadow-2xl">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technologies Section -->
+    <section class="py-20 bg-gradient-to-br from-pink-50 to-orange-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">Technologies Used</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-pink-500 to-orange-500 mx-auto mb-8"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Flutter</h3>
+                    <p class="text-gray-600">Cross-platform mobile development for consistent user experience</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">AWS API Gateway</h3>
+                    <p class="text-gray-600">Secure entry point for all client-server interactions</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">AWS Lambda</h3>
+                    <p class="text-gray-600">Serverless backend logic with automatic scaling</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Stripe</h3>
+                    <p class="text-gray-600">Secure payment processing for premium features</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Firebase</h3>
+                    <p class="text-gray-600">User authentication and real-time notifications</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Admin Portal</h3>
+                    <p class="text-gray-600">Content management and platform analytics</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 gradient-pink">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-5xl font-bold text-white mb-6">Let's Build Something Great Together</h2>
+            <p class="text-xl text-white/90 mb-12 max-w-2xl mx-auto">
+                Have an idea or project in mind? We are just a message away.
+            </p>
+            <a href="https://www.topai24.com/" 
+               class="inline-block bg-white text-pink-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-2xl">
+                Let's turn your vision into reality
+            </a>
+        </div>
+    </section>
+
+    <script>
+        // Add scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'all 0.8s ease-out';
+            observer.observe(section);
+        });
+
+        // Add interactive hover effects
+        document.querySelectorAll('.hover-lift').forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                element.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                element.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Interactive memory wall
+        document.querySelectorAll('.memory-card').forEach((card, index) => {
+            card.addEventListener('click', () => {
+                card.style.transform = 'scale(1.1) rotate(5deg)';
+                setTimeout(() => {
+                    card.style.transform = 'scale(1) rotate(0deg)';
+                }, 300);
+            });
+
+            // Add staggered animation on load
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, index * 200);
+
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'all 0.5s ease-out';
+        });
+
+        // Add photo upload simulation
+        function simulatePhotoUpload() {
+            const photoGrid = document.querySelector('.photo-grid');
+            const colors = ['from-pink-200 to-purple-200', 'from-blue-200 to-teal-200', 'from-yellow-200 to-orange-200', 'from-green-200 to-blue-200'];
+            const emojis = ['📸', '🎥', '🎉', '💫', '🌟', '🎊', '📷', '🎈'];
+            
+            setInterval(() => {
+                const newCard = document.createElement('div');
+                newCard.className = `memory-card bg-gradient-to-br ${colors[Math.floor(Math.random() * colors.length)]} h-48 flex items-center justify-center text-4xl hover-lift`;
+                newCard.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                newCard.style.opacity = '0';
+                newCard.style.transform = 'scale(0.8)';
+                
+                photoGrid.appendChild(newCard);
+                
+                setTimeout(() => {
+                    newCard.style.opacity = '1';
+                    newCard.style.transform = 'scale(1)';
+                }, 100);
+
+                // Remove old cards to prevent overflow
+                if (photoGrid.children.length > 8) {
+                    photoGrid.removeChild(photoGrid.firstChild);
+                }
+            }, 3000);
+        }
+
+        // Start photo upload simulation
+        setTimeout(simulatePhotoUpload, 2000);
+    </script>
+</body>
+</html>

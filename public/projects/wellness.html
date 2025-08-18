@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindfulPath - Your Mental Wellness Companion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-out',
+                        'slide-up': 'slideUp 0.8s ease-out',
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s ease-in-out infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'spin-slow': 'spin 8s linear infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(40px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .gradient-green {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+        .gradient-purple {
+            background: linear-gradient(135deg, #8E2DE2 0%, #4A00E0 100%);
+        }
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hover-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #8E2DE2 0%, #4A00E0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .breath-animation {
+            animation: breath 4s ease-in-out infinite;
+        }
+        @keyframes breath {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Hero Section -->
+    <div class="relative min-h-screen gradient-purple overflow-hidden">
+        <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+        <div class="relative z-10 container mx-auto px-6 py-20">
+            <div class="text-center animate-fade-in">
+                <div class="text-8xl mb-6 animate-float">🧘</div>
+                <h1 class="text-6xl md:text-8xl font-bold text-white mb-6 animate-slide-up">
+                    MindfulPath
+                </h1>
+                <p class="text-xl md:text-2xl text-white/90 mb-4 animate-slide-up" style="animation-delay: 0.2s">
+                    Your Mental Wellness Companion
+                </p>
+                <p class="text-lg text-white/80 mb-12 max-w-3xl mx-auto animate-slide-up" style="animation-delay: 0.3s">
+                    A mobile-first platform blending meditation, mood tracking, CBT journaling, and community support
+                </p>
+                <button onclick="document.getElementById('problem-section').scrollIntoView({ behavior: 'smooth' })" class="bg-white text-purple-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 animate-slide-up shadow-2xl" style="animation-delay: 0.4s">
+                    Start Your Journey
+                </button>
+            </div>
+        </div>
+        
+        <!-- Floating Icons -->
+        <div class="absolute top-20 left-10 w-16 h-16 bg-white/10 rounded-full flex items-center justify-center animate-float text-2xl" style="animation-delay: 1s">😊</div>
+        <div class="absolute top-40 right-20 w-20 h-20 bg-white/10 rounded-full flex items-center justify-center animate-float text-3xl" style="animation-delay: 2s">📝</div>
+        <div class="absolute bottom-40 left-20 w-12 h-12 bg-white/10 rounded-full flex items-center justify-center animate-float text-xl" style="animation-delay: 3s">🧠</div>
+    </div>
+
+    <!-- Problem Section -->
+    <section class="py-20 bg-white" id="problem-section">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 animate-fade-in">
+                <h2 class="text-5xl font-bold text-gradient mb-6">The Problem</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-purple-500 to-indigo-500 mx-auto mb-8"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center p-8 rounded-2xl hover-lift bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200">
+                    <div class="text-6xl mb-4 animate-bounce-slow">🔀</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">App Fragmentation</h3>
+                    <p class="text-gray-600">Users juggle multiple apps for meditation, journaling, and tracking</p>
+                </div>
+                
+                <div class="text-center p-8 rounded-2xl hover-lift bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200">
+                    <div class="text-6xl mb-4 animate-bounce-slow" style="animation-delay: 0.5s">📊</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Progress Blindness</h3>
+                    <p class="text-gray-600">No unified view of emotional growth and habit formation</p>
+                </div>
+                
+                <div class="text-center p-8 rounded-2xl hover-lift bg-gradient-to-br from-pink-50 to-pink-100 border border-pink-200">
+                    <div class="text-6xl mb-4 animate-bounce-slow" style="animation-delay: 1s">♿</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Accessibility Gaps</h3>
+                    <p class="text-gray-600">Limited customization for diverse user needs</p>
+                </div>
+                
+                <div class="text-center p-8 rounded-2xl hover-lift bg-gradient-to-br from-teal-50 to-teal-100 border border-teal-200">
+                    <div class="text-6xl mb-4 animate-bounce-slow" style="animation-delay: 1.5s">⏱️</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Habit Friction</h3>
+                    <p class="text-gray-600">Lack of integrated tools makes consistency challenging</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="py-20 bg-gradient-to-br from-purple-50 to-indigo-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">The Solution</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-purple-500 to-indigo-500 mx-auto mb-8"></div>
+                <div class="max-w-4xl mx-auto">
+                    <p class="text-2xl text-gray-700 mb-6">
+                        🧩 <strong>MindfulPath</strong> integrates all mental wellness tools in one place with personalized insights and community support
+                    </p>
+                    <div class="grid md:grid-cols-2 gap-8 text-left">
+                        <div class="flex items-center space-x-4 p-4 bg-white rounded-xl shadow-lg hover-lift">
+                            <div class="text-3xl breath-animation">🌱</div>
+                            <p class="text-lg">Unified platform for meditation, journaling, and tracking</p>
+                        </div>
+                        <div class="flex items-center space-x-4 p-4 bg-white rounded-xl shadow-lg hover-lift">
+                            <div class="text-3xl breath-animation" style="animation-delay: 1s">📈</div>
+                            <p class="text-lg">Data-driven insights show your emotional progress</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">Key Features</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-purple-500 to-indigo-500 mx-auto mb-8"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Core Features -->
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 group">
+                    <div class="text-5xl mb-4 group-hover:animate-bounce">🏠</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Home Dashboard</h3>
+                    <ul class="text-gray-600 list-disc list-inside space-y-2">
+                        <li>Personalized greeting & daily tip</li>
+                        <li>Mood check-in shortcut</li>
+                        <li>Recommended practices</li>
+                        <li>Quick navigation</li>
+                    </ul>
+                </div>
+
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200 group">
+                    <div class="text-5xl mb-4 group-hover:animate-bounce">😊</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Mood Tracking</h3>
+                    <ul class="text-gray-600 list-disc list-inside space-y-2">
+                        <li>Emoji-based mood selection</li>
+                        <li>Optional reflection notes</li>
+                        <li>Trend visualization</li>
+                        <li>Pattern recognition</li>
+                    </ul>
+                </div>
+
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-pink-50 to-pink-100 border border-pink-200 group">
+                    <div class="text-5xl mb-4 group-hover:animate-bounce">📝</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">CBT Journaling</h3>
+                    <ul class="text-gray-600 list-disc list-inside space-y-2">
+                        <li>Therapeutic prompts</li>
+                        <li>Tagging system</li>
+                        <li>Entry history</li>
+                        <li>Reminders</li>
+                    </ul>
+                </div>
+
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-indigo-50 to-indigo-100 border border-indigo-200 group">
+                    <div class="text-5xl mb-4 group-hover:animate-bounce">🎧</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Meditation Library</h3>
+                    <ul class="text-gray-600 list-disc list-inside space-y-2">
+                        <li>Guided sessions</li>
+                        <li>Category filtering</li>
+                        <li>Progress tracking</li>
+                        <li>Favorite saves</li>
+                    </ul>
+                </div>
+
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-teal-50 to-teal-100 border border-teal-200 group">
+                    <div class="text-5xl mb-4 group-hover:animate-bounce">👥</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Community</h3>
+                    <ul class="text-gray-600 list-disc list-inside space-y-2">
+                        <li>Supportive feed</li>
+                        <li>Affirmation sharing</li>
+                        <li>Like/comment</li>
+                        <li>Moderated space</li>
+                    </ul>
+                </div>
+
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-yellow-50 to-yellow-100 border border-yellow-200 group">
+                    <div class="text-5xl mb-4 group-hover:animate-bounce">🎯</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Goal Tracking</h3>
+                    <ul class="text-gray-600 list-disc list-inside space-y-2">
+                        <li>Habit formation</li>
+                        <li>Progress visualization</li>
+                        <li>Streak rewards</li>
+                        <li>Reminders</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Screens Section -->
+    <section class="py-20 bg-gradient-to-br from-gray-50 to-gray-100">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">App Experience</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-purple-500 to-indigo-500 mx-auto mb-8"></div>
+            </div>
+
+         <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-8">
+                <div class="text-center group">
+                    <div class="mb-8 hover-lift">
+                        <img src="Mental Wellness/Home Dashboard.png" 
+                             alt="Dashboard Screen" 
+                             class="w-48 mx-auto rounded-3xl shadow-2xl group-hover:shadow-3xl transition-all duration-300">
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Home Dashboard</h3>
+                    <p class="text-gray-600">Quick stats and activity tracking at a glance</p>
+                </div>
+
+                <div class="text-center group">
+                    <div class="mb-8 hover-lift">
+                        <img src="Mental Wellness/Gratitude Journal.png" 
+                             alt="Gratitude Journal Screen" 
+                             class="w-48 mx-auto rounded-3xl shadow-2xl group-hover:shadow-3xl transition-all duration-300">
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Workout Schedule</h3>
+                    <p class="text-gray-600">Weekly workout plan with "Start Workout" button</p>
+                </div>
+
+                <div class="text-center group">
+                    <div class="mb-8 hover-lift">
+                        <img src="Mental Wellness/Goal Tracker Screen.png" 
+                             alt="Goal Tracker Screen" 
+                             class="w-48 mx-auto rounded-3xl shadow-2xl group-hover:shadow-3xl transition-all duration-300">
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Meal Plan</h3>
+                    <p class="text-gray-600">Daily meal breakdown with calorie tracking</p>
+                </div>
+
+                <div class="text-center group">
+                    <div class="mb-8 hover-lift">
+                        <img src="Mental Wellness/Guided Meditation Library.png" 
+                             alt="Guided Meditation Library Screen" 
+                             class="w-48 mx-auto rounded-3xl shadow-2xl group-hover:shadow-3xl transition-all duration-300">
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Workout Schedule</h3>
+                    <p class="text-gray-600">Weekly workout plan with "Start Workout" button</p>
+                </div>
+
+                <div class="text-center group">
+                    <div class="mb-8 hover-lift">
+                        <img src="Mental Wellness/Daily Mood Check-in.png" 
+                             alt="Mood Check-in Screen" 
+                             class="w-48 mx-auto rounded-3xl shadow-2xl group-hover:shadow-3xl transition-all duration-300">
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Meal Plan</h3>
+                    <p class="text-gray-600">Daily meal breakdown with calorie tracking</p>
+                </div>
+
+               
+            </div>
+        </div>
+    </section>
+
+    <!-- Daily Flow Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">Daily Wellness Flow</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-purple-500 to-indigo-500 mx-auto mb-8"></div>
+            </div>
+            
+            <div class="max-w-4xl mx-auto grid md:grid-cols-3 gap-8">
+                <div class="text-center p-6 rounded-2xl hover-lift bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200">
+                    <div class="text-4xl mb-4">🌅</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Morning</h3>
+                    <p class="text-gray-600">Mood check-in + guided meditation</p>
+                </div>
+                
+                <div class="text-center p-6 rounded-2xl hover-lift bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200">
+                    <div class="text-4xl mb-4">🌇</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Afternoon</h3>
+                    <p class="text-gray-600">Community engagement</p>
+                </div>
+                
+                <div class="text-center p-6 rounded-2xl hover-lift bg-gradient-to-br from-pink-50 to-pink-100 border border-pink-200">
+                    <div class="text-4xl mb-4">🌃</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Evening</h3>
+                    <p class="text-gray-600">Journaling + progress review</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technologies Section -->
+    <section class="py-20 bg-gradient-to-br from-purple-50 to-indigo-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">Technology Stack</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-purple-500 to-indigo-500 mx-auto mb-8"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Flutter</h3>
+                    <p class="text-gray-600">Cross-platform mobile development</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Supabase</h3>
+                    <p class="text-gray-600">Backend with Postgres database</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Node.js</h3>
+                    <p class="text-gray-600">API services & analytics</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Firebase</h3>
+                    <p class="text-gray-600">Push notifications</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 gradient-purple">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-5xl font-bold text-white mb-6">Begin Your Wellness Journey</h2>
+            <p class="text-xl text-white/90 mb-12 max-w-2xl mx-auto">
+                Download MindfulPath today and take the first step toward better mental health.
+            </p>
+            <div class="flex justify-center space-x-4">
+                <button class="bg-white text-purple-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-2xl">
+                    App Store
+                </button>
+                <button class="bg-white text-purple-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-2xl">
+                    Google Play
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Add scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'all 0.8s ease-out';
+            observer.observe(section);
+        });
+
+        // Add interactive hover effects
+        document.querySelectorAll('.hover-lift').forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                element.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                element.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

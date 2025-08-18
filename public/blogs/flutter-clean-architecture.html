@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn how to implement Clean Architecture in Flutter for scalable, maintainable mobile applications. Understand the layers, benefits, and best practices.">
+    <meta name="keywords" content="Flutter, Clean Architecture, Mobile Development, Dart, BLoC, State Management, App Architecture">
+    <meta name="author" content="Flutter Architecture Expert">
+    <title>Implementing Clean Architecture in Flutter | Best Practices Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-out',
+                        'slide-up': 'slideUp 0.8s ease-out',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(40px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-blue {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hover-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .architecture-diagram {
+            background-image: url('https://miro.medium.com/v2/resize:fit:1400/format:webp/1*X8tb0x1FZP9uV7yLx90JZQ.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            min-height: 400px;
+        }
+        .layer-icon {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Hero Section -->
+    <div class="relative min-h-screen gradient-blue overflow-hidden">
+        <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+        <div class="relative z-10 container mx-auto px-6 py-20">
+            <div class="text-center animate-fade-in">
+                <div class="flex justify-center mb-6">
+                    <img src="https://storage.googleapis.com/cms-storage-bucket/6a07d8a62f4308d2b854.svg" alt="Flutter Logo" class="w-32 h-32 animate-float">
+                </div>
+                <h1 class="text-4xl sm:text-6xl md:text-8xl font-bold text-white mb-6 animate-slide-up">
+                    Clean Architecture in Flutter
+                </h1>
+                <p class="text-lg md:text-2xl text-white/90 mb-12 max-w-3xl mx-auto animate-slide-up" style="animation-delay: 0.2s">
+                    Build scalable, testable, and maintainable Flutter applications with proper separation of concerns
+                </p>
+                <div class="flex justify-center gap-4 animate-slide-up" style="animation-delay: 0.4s">
+                    <a href="#benefits" class="px-8 py-3 bg-white text-indigo-600 font-medium rounded-full hover:bg-gray-100 transition-all">
+                        Learn Benefits
+                    </a>
+                    <a href="#implementation" class="px-8 py-3 bg-white/10 text-white font-medium rounded-full hover:bg-white/20 transition-all border border-white/20">
+                        Implementation
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Benefits Section -->
+    <section id="benefits" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gradient mb-6">Why Use Clean Architecture?</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto mb-8"></div>
+                <p class="text-lg md:text-xl text-gray-700 max-w-4xl mx-auto">
+                    Clean Architecture helps separate concerns within an application, making the codebase more testable, maintainable, and flexible to changes in the UI or database.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 mb-16">
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200">
+                    <div class="layer-icon bg-blue-100 text-blue-600 mx-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3 text-center">Presentation Layer</h3>
+                    <p class="text-gray-600 text-center">Manages the UI with widgets and state management solutions like BLoC, Provider, or Riverpod. This layer depends on the domain layer but knows nothing about the data layer.</p>
+                </div>
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200">
+                    <div class="layer-icon bg-purple-100 text-purple-600 mx-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3 text-center">Domain Layer</h3>
+                    <p class="text-gray-600 text-center">Contains core business logic, entities, use cases, and repository interfaces. This is the most stable layer and doesn't depend on any other layer.</p>
+                </div>
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-indigo-50 to-indigo-100 border border-indigo-200">
+                    <div class="layer-icon bg-indigo-100 text-indigo-600 mx-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3 text-center">Data Layer</h3>
+                    <p class="text-gray-600 text-center">Handles data retrieval from various sources (APIs, databases, etc.) and implements repository interfaces from the domain layer. This layer depends on the domain layer.</p>
+                </div>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-8 md:p-12 border border-gray-200">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Key Benefits of Clean Architecture</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white p-6 rounded-xl border border-gray-200">
+                        <h4 class="font-bold text-indigo-600 mb-2">Testability</h4>
+                        <p class="text-gray-600">Each layer can be tested independently with mock dependencies</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-gray-200">
+                        <h4 class="font-bold text-indigo-600 mb-2">Maintainability</h4>
+                        <p class="text-gray-600">Clear separation makes code easier to understand and modify</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-gray-200">
+                        <h4 class="font-bold text-indigo-600 mb-2">Flexibility</h4>
+                        <p class="text-gray-600">Change UI or data sources without affecting business logic</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-gray-200">
+                        <h4 class="font-bold text-indigo-600 mb-2">Team Scalability</h4>
+                        <p class="text-gray-600">Different teams can work on different layers simultaneously</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Implementation Section -->
+    <section id="implementation" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl sm:text-5xl md:text-6xl font-bold text-gradient mb-8">Implementation Guide</h2>
+                <div class="w-32 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto mb-10"></div>
+                <p class="text-xl md:text-2xl text-gray-700 max-w-5xl mx-auto leading-relaxed">
+                    Here's how to structure your Flutter project with Clean Architecture principles
+                </p>
+            </div>
+
+            <!-- Project Structure with Visual Enhancement -->
+            <div class="mb-20">
+                <div class="bg-white rounded-3xl p-10 md:p-16 border border-gray-200 shadow-lg">
+                    <div class="grid lg:grid-cols-2 gap-16 items-center">
+                        <div>
+                            <h3 class="text-3xl font-bold text-gray-800 mb-6">Project Structure</h3>
+                            <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                                A typical Clean Architecture Flutter project is organized into three main directories corresponding to each layer. This structure promotes separation of concerns and makes your codebase more maintainable.
+                            </p>
+                            <div class="space-y-4">
+                                <div class="flex items-center text-gray-700">
+                                    <div class="w-3 h-3 bg-blue-500 rounded-full mr-3"></div>
+                                    <span class="font-semibold">Core:</span>&nbsp;Shared utilities and constants
+                                </div>
+                                <div class="flex items-center text-gray-700">
+                                    <div class="w-3 h-3 bg-purple-500 rounded-full mr-3"></div>
+                                    <span class="font-semibold">Data:</span>&nbsp;External data sources and repositories
+                                </div>
+                                <div class="flex items-center text-gray-700">
+                                    <div class="w-3 h-3 bg-indigo-500 rounded-full mr-3"></div>
+                                    <span class="font-semibold">Domain:</span>&nbsp;Business logic and entities
+                                </div>
+                                <div class="flex items-center text-gray-700">
+                                    <div class="w-3 h-3 bg-green-500 rounded-full mr-3"></div>
+                                    <span class="font-semibold">Presentation:</span>&nbsp;UI widgets and state management
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="bg-gray-900 rounded-2xl p-8 text-gray-100 font-mono overflow-x-auto shadow-2xl">
+                                <div class="flex items-center mb-6">
+                                    <div class="flex space-x-2">
+                                        <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                                        <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                                        <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                                    </div>
+                                    <span class="ml-4 text-gray-400 text-sm">Flutter Project</span>
+                                </div>
+                                <pre><code class="text-sm leading-relaxed">lib/
+├── <span class="text-blue-400">core/</span>               <span class="text-gray-500"># Shared utilities</span>
+│   ├── constants/
+│   ├── errors/
+│   ├── utils/
+│   └── network/
+├── <span class="text-purple-400">data/</span>               <span class="text-gray-500"># Data layer</span>
+│   ├── datasources/    <span class="text-gray-500"># Local & remote</span>
+│   ├── models/         <span class="text-gray-500"># Data transfer objects</span>
+│   └── repositories/   <span class="text-gray-500"># Repository implementations</span>
+├── <span class="text-indigo-400">domain/</span>             <span class="text-gray-500"># Domain layer</span>
+│   ├── entities/       <span class="text-gray-500"># Business objects</span>
+│   ├── repositories/   <span class="text-gray-500"># Repository interfaces</span>
+│   └── usecases/       <span class="text-gray-500"># Business rules</span>
+└── <span class="text-green-400">presentation/</span>       <span class="text-gray-500"># Presentation layer</span>
+    ├── blocs/          <span class="text-gray-500"># BLoC components</span>
+    ├── pages/          <span class="text-gray-500"># Screen widgets</span>
+    ├── widgets/        <span class="text-gray-500"># Reusable UI</span>
+    └── state/          <span class="text-gray-500"># State management</span></code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Layer Details Section -->
+            <div class="grid md:grid-cols-3 gap-8 mb-20">
+                <div class="bg-white rounded-2xl p-8 border border-gray-200 hover-lift">
+                    <div class="bg-gradient-to-br from-blue-500 to-blue-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-800 mb-4">Presentation Layer</h4>
+                    <p class="text-gray-600 mb-4">The outermost layer handling user interactions and displaying data. Contains widgets, screens, and state management.</p>
+                    <ul class="text-sm text-gray-500 space-y-1">
+                        <li>• Flutter Widgets</li>
+                        <li>• BLoC/Cubit/Provider</li>
+                        <li>• UI State Management</li>
+                        <li>• Navigation Logic</li>
+                    </ul>
+                </div>
+                <div class="bg-white rounded-2xl p-8 border border-gray-200 hover-lift">
+                    <div class="bg-gradient-to-br from-purple-500 to-purple-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                        </svg>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-800 mb-4">Domain Layer</h4>
+                    <p class="text-gray-600 mb-4">The core business logic layer. Framework-independent and contains the most important business rules.</p>
+                    <ul class="text-sm text-gray-500 space-y-1">
+                        <li>• Business Entities</li>
+                        <li>• Use Cases</li>
+                        <li>• Repository Contracts</li>
+                        <li>• Business Rules</li>
+                    </ul>
+                </div>
+                <div class="bg-white rounded-2xl p-8 border border-gray-200 hover-lift">
+                    <div class="bg-gradient-to-br from-indigo-500 to-indigo-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
+                        </svg>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-800 mb-4">Data Layer</h4>
+                    <p class="text-gray-600 mb-4">Handles data retrieval and storage from various sources like APIs, databases, and local storage.</p>
+                    <ul class="text-sm text-gray-500 space-y-1">
+                        <li>• API Integration</li>
+                        <li>• Local Database</li>
+                        <li>• Repository Implementation</li>
+                        <li>• Data Models</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Dependency Flow Section -->
+            <div class="bg-white rounded-3xl p-10 md:p-16 border border-gray-200 shadow-lg">
+                <h3 class="text-3xl font-bold text-gray-800 mb-10 text-center">Dependency Flow & Communication</h3>
+                <div class="grid md:grid-cols-3 gap-12">
+                    <div class="text-center">
+                        <div class="bg-gradient-to-br from-blue-500 to-blue-600 text-white w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                            </svg>
+                        </div>
+                        <h4 class="font-bold text-xl text-gray-800 mb-4">Presentation → Domain</h4>
+                        <p class="text-gray-600 leading-relaxed">UI components call use cases from the domain layer to execute business logic and get processed data.</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-gradient-to-br from-purple-500 to-purple-600 text-white w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7l4-4m0 0l4 4m-4-4v18" />
+                            </svg>
+                        </div>
+                        <h4 class="font-bold text-xl text-gray-800 mb-4">Domain ← Data</h4>
+                        <p class="text-gray-600 leading-relaxed">Domain layer defines repository contracts that are implemented by the data layer for data access.</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-gradient-to-br from-red-500 to-red-600 text-white w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636m12.728 12.728L12 12m6.364 6.364L12 12m0 0L5.636 5.636M12 12l6.364-6.364M12 12l-6.364 6.364" />
+                            </svg>
+                        </div>
+                        <h4 class="font-bold text-xl text-gray-800 mb-4">No Reverse Dependencies</h4>
+                        <p class="text-gray-600 leading-relaxed">Inner layers never depend on outer layers, ensuring stable architecture and easy testing.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Best Practices Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gradient mb-6">Best Practices</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto mb-8"></div>
+                <p class="text-lg md:text-xl text-gray-700 max-w-4xl mx-auto">
+                    Follow these guidelines to get the most out of Clean Architecture in Flutter
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 hover-lift">
+                    <div class="text-indigo-500 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Use Dependency Injection</h3>
+                    <p class="text-gray-600">Inject dependencies through constructors to make your code more testable and flexible. Consider using packages like get_it or provider for DI.</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 hover-lift">
+                    <div class="text-indigo-500 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Follow SOLID Principles</h3>
+                    <p class="text-gray-600">Especially the Dependency Inversion Principle. High-level modules should not depend on low-level modules - both should depend on abstractions.</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 hover-lift">
+                    <div class="text-indigo-500 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Keep Domain Layer Pure</h3>
+                    <p class="text-gray-600">The domain layer should have no dependencies on Flutter or any other framework. This makes your business logic framework-agnostic.</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 hover-lift">
+                    <div class="text-indigo-500 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Use Data Transfer Objects</h3>
+                    <p class="text-gray-600">Convert between entity models (domain) and data models (data layer) using DTOs. This keeps layers properly separated.</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 hover-lift">
+                    <div class="text-indigo-500 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Implement Feature Folders</h3>
+                    <p class="text-gray-600">Organize by feature rather than by layer for better scalability. Each feature can contain its own presentation, domain, and data code.</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 hover-lift">
+                    <div class="text-indigo-500 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Write Comprehensive Tests</h3>
+                    <p class="text-gray-600">Take advantage of Clean Architecture's testability. Write unit tests for domain layer, widget tests for UI, and integration tests for the full app.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 gradient-blue">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6">Ready to Implement Clean Architecture?</h2>
+            <p class="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
+                Start building more maintainable and scalable Flutter applications today
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="https://flutter.dev/docs" class="px-8 py-4 bg-white text-indigo-600 font-medium rounded-full hover:bg-gray-100 transition-all text-lg">
+                    Flutter Documentation
+                </a>
+                <a href="https://pub.dev/packages/flutter_bloc" class="px-8 py-4 bg-white/10 text-white font-medium rounded-full hover:bg-white/20 transition-all border border-white/20 text-lg">
+                    BLoC Package
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+</body>
+</html>

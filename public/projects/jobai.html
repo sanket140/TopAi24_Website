@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobAI - AI-Powered Recruitment Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-out',
+                        'slide-up': 'slideUp 0.8s ease-out',
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s ease-in-out infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'spin-slow': 'spin 8s linear infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(40px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .gradient-blue {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        }
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hover-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .swipe-animation {
+            animation: swipeDemo 3s ease-in-out infinite;
+        }
+        @keyframes swipeDemo {
+            0%, 100% { transform: translateX(0) translateY(0); }
+            25% { transform: translateX(20px) translateY(0); }
+            50% { transform: translateX(0) translateY(20px); }
+            75% { transform: translateX(-20px) translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Hero Section -->
+    <div class="relative min-h-screen gradient-blue overflow-hidden">
+        <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+        <div class="relative z-10 container mx-auto px-6 py-20">
+            <div class="text-center animate-fade-in">
+                <div class="text-8xl mb-6 animate-float">🤖</div>
+                <h1 class="text-6xl md:text-8xl font-bold text-white mb-6 animate-slide-up">
+                    JobAI
+                </h1>
+                <p class="text-xl md:text-2xl text-white/90 mb-4 animate-slide-up" style="animation-delay: 0.2s">
+                    AI-Powered Recruitment Platform
+                </p>
+                <p class="text-lg text-white/80 mb-12 max-w-3xl mx-auto animate-slide-up" style="animation-delay: 0.3s">
+                    Revolutionizing hiring with AI-powered job matching, resume tailoring, and interview preparation
+                </p>
+                <button onclick="document.getElementById('problem-section').scrollIntoView({ behavior: 'smooth' })" class="bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 animate-slide-up shadow-2xl" style="animation-delay: 0.4s">
+                    Discover Smarter Hiring
+                </button>
+            </div>
+        </div>
+        
+        <!-- Floating Icons -->
+        <div class="absolute top-20 left-10 w-16 h-16 bg-white/10 rounded-full flex items-center justify-center animate-float text-2xl" style="animation-delay: 1s">👔</div>
+        <div class="absolute top-40 right-20 w-20 h-20 bg-white/10 rounded-full flex items-center justify-center animate-float text-3xl" style="animation-delay: 2s">📊</div>
+        <div class="absolute bottom-40 left-20 w-12 h-12 bg-white/10 rounded-full flex items-center justify-center animate-float text-xl" style="animation-delay: 3s">💼</div>
+    </div>
+
+    <!-- Problem Section -->
+    <section class="py-20 bg-white" id="problem-section">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 animate-fade-in">
+                <h2 class="text-5xl font-bold text-gradient mb-6">The Recruitment Problem</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mb-8"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center p-8 rounded-2xl hover-lift bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200">
+                    <div class="text-6xl mb-4 animate-bounce-slow">😕</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Poor Job Matching</h3>
+                    <p class="text-gray-600">Job seekers apply to irrelevant roles due to inaccurate recommendations</p>
+                </div>
+                
+                <div class="text-center p-8 rounded-2xl hover-lift bg-gradient-to-br from-yellow-50 to-yellow-100 border border-yellow-200">
+                    <div class="text-6xl mb-4 animate-bounce-slow" style="animation-delay: 0.5s">⏳</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Time-Consuming Process</h3>
+                    <p class="text-gray-600">Recruiters struggle to find quality candidates from large applicant pools</p>
+                </div>
+                
+                <div class="text-center p-8 rounded-2xl hover-lift bg-gradient-to-br from-red-50 to-red-100 border border-red-200">
+                    <div class="text-6xl mb-4 animate-bounce-slow" style="animation-delay: 1s">📝</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Resume Challenges</h3>
+                    <p class="text-gray-600">Manual resume customization for each application is inefficient</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="py-20 bg-gradient-to-br from-blue-50 to-indigo-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">The AI Solution</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mb-8"></div>
+                <div class="max-w-4xl mx-auto">
+                    <p class="text-2xl text-gray-700 mb-6">
+                        🤖 <strong>JobAi</strong> transforms recruitment with intelligent matching, automated resume optimization, and AI-powered interview preparation
+                    </p>
+                    <div class="grid md:grid-cols-2 gap-8 text-left">
+                        <div class="flex items-center space-x-4 p-4 bg-white rounded-xl shadow-lg hover-lift">
+                            <div class="text-3xl swipe-animation">🔍</div>
+                            <p class="text-lg">AI-powered job matching based on skills and preferences</p>
+                        </div>
+                        <div class="flex items-center space-x-4 p-4 bg-white rounded-xl shadow-lg hover-lift">
+                            <div class="text-3xl swipe-animation" style="animation-delay: 1s">✏️</div>
+                            <p class="text-lg">Automated resume tailoring for each application</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">Key Features</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mb-8"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Job Seeker Features -->
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-green-50 to-green-100 border border-green-200 group">
+                    <div class="text-5xl mb-4 group-hover:animate-bounce">📱</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Candidate Dashboard</h3>
+                    <p class="text-gray-600">Personalized job recommendations and application tracking</p>
+                </div>
+
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 group">
+                    <div class="text-5xl mb-4 group-hover:animate-bounce">🎯</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">AI Job Matching</h3>
+                    <p class="text-gray-600">Intelligent recommendations with compatibility scores</p>
+                </div>
+
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200 group">
+                    <div class="text-5xl mb-4 group-hover:animate-bounce">📄</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Resume Tailoring</h3>
+                    <p class="text-gray-600">Auto-adjust resumes to match job requirements</p>
+                </div>
+
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-yellow-50 to-yellow-100 border border-yellow-200 group">
+                    <div class="text-5xl mb-4 group-hover:animate-bounce">🎤</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Mock Interviews</h3>
+                    <p class="text-gray-600">AI-powered practice with instant feedback</p>
+                </div>
+
+                <!-- Recruiter Features -->
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-indigo-50 to-indigo-100 border border-indigo-200 group">
+                    <div class="text-5xl mb-4 group-hover:animate-bounce">📋</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Recruiter Dashboard</h3>
+                    <p class="text-gray-600">Manage job postings and track candidates</p>
+                </div>
+
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-pink-50 to-pink-100 border border-pink-200 group">
+                    <div class="text-5xl mb-4 group-hover:animate-bounce">👥</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">AI Candidate Matching</h3>
+                    <p class="text-gray-600">Ranked candidates based on job requirements</p>
+                </div>
+
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-red-50 to-red-100 border border-red-200 group">
+                    <div class="text-5xl mb-4 group-hover:animate-bounce">📅</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Interview Scheduling</h3>
+                    <p class="text-gray-600">Integrated calendar for seamless scheduling</p>
+                </div>
+
+                <div class="p-8 rounded-2xl hover-lift bg-gradient-to-br from-teal-50 to-teal-100 border border-teal-200 group">
+                    <div class="text-5xl mb-4 group-hover:animate-bounce">📊</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Hiring Analytics</h3>
+                    <p class="text-gray-600">Metrics and insights to optimize recruitment</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- App Screens Section -->
+    <section class="py-20 bg-gradient-to-br from-gray-50 to-gray-100">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">Application Screens</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto mb-8"></div>
+            </div>
+
+            <!-- Screenshot Carousel -->
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+                <!-- IMAGE PLACEHOLDER: Screen 1 -->
+             
+                
+                <!-- IMAGE PLACEHOLDER: Screen 2 -->
+                <div class="hover-lift rounded-3xl shadow-2xl overflow-hidden">
+                    <img src="Job Ai/Home dashboard.png" 
+                         alt="Home Dashboard Screen" 
+                         class="w-full h-auto">
+                </div>
+                
+                <!-- IMAGE PLACEHOLDER: Screen 3 -->
+                <div class="hover-lift rounded-3xl shadow-2xl overflow-hidden">
+                    <img src="Job Ai/AI Powered job matching screen.png" 
+                         alt="Job Matching Screen" 
+                         class="w-full h-auto">
+                </div>
+                
+                <!-- IMAGE PLACEHOLDER: Screen 4 -->
+                <div class="hover-lift rounded-3xl shadow-2xl overflow-hidden">
+                    <img src="Job Ai/Job Detail view.png" 
+                         alt="Job Detail Screen" 
+                         class="w-full h-auto">
+                </div>
+                
+                <!-- IMAGE PLACEHOLDER: Screen 5 -->
+                <div class="hover-lift rounded-3xl shadow-2xl overflow-hidden">
+                    <img src="Job Ai/AI Matched candidates screen.png" 
+                         alt="Matched candidates screen" 
+                         class="w-full h-auto">
+                </div>
+                   <div class="hover-lift rounded-3xl shadow-2xl overflow-hidden">
+                    <img src="Job Ai/Mock Interview AI Screen.png" 
+                         alt="Welcome screen" 
+                         class="w-full h-auto">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- How It Works Section -->
+    <section class="py-20 bg-gradient-to-br from-gray-50 to-gray-100">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">How It Works</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mb-8"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- Candidate Flow -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover-lift">
+                    <h3 class="text-3xl font-bold text-gray-800 mb-6 text-center">For Job Seekers</h3>
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-blue-100 text-blue-600 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0 mt-1">1</div>
+                            <div>
+                                <h4 class="text-xl font-semibold text-gray-800">Sign Up & Profile</h4>
+                                <p class="text-gray-600">Complete your profile with skills, experience, and preferences</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-blue-100 text-blue-600 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0 mt-1">2</div>
+                            <div>
+                                <h4 class="text-xl font-semibold text-gray-800">Get Recommendations</h4>
+                                <p class="text-gray-600">AI suggests jobs matching your profile with compatibility scores</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-blue-100 text-blue-600 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0 mt-1">3</div>
+                            <div>
+                                <h4 class="text-xl font-semibold text-gray-800">Optimize Resume</h4>
+                                <p class="text-gray-600">Tailor your resume to each job with AI suggestions</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-blue-100 text-blue-600 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0 mt-1">4</div>
+                            <div>
+                                <h4 class="text-xl font-semibold text-gray-800">Practice & Apply</h4>
+                                <p class="text-gray-600">Prepare with mock interviews and submit applications</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+ 
+                <!-- Recruiter Flow -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover-lift">
+                    <h3 class="text-3xl font-bold text-gray-800 mb-6 text-center">For Recruiters</h3>
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-indigo-100 text-indigo-600 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0 mt-1">1</div>
+                            <div>
+                                <h4 class="text-xl font-semibold text-gray-800">Post Jobs</h4>
+                                <p class="text-gray-600">Create detailed job listings with requirements and descriptions</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-indigo-100 text-indigo-600 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0 mt-1">2</div>
+                            <div>
+                                <h4 class="text-xl font-semibold text-gray-800">Find Candidates</h4>
+                                <p class="text-gray-600">AI matches and ranks candidates based on your criteria</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-indigo-100 text-indigo-600 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0 mt-1">3</div>
+                            <div>
+                                <h4 class="text-xl font-semibold text-gray-800">Schedule Interviews</h4>
+                                <p class="text-gray-600">Coordinate interviews directly through the platform</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-indigo-100 text-indigo-600 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0 mt-1">4</div>
+                            <div>
+                                <h4 class="text-xl font-semibold text-gray-800">Track & Analyze</h4>
+                                <p class="text-gray-600">Monitor hiring metrics and optimize your process</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+              <div class="text-center mt-12">
+                <a href="/contact"
+                class="inline-block bg-indigo-600 text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-indigo-700 transform hover:scale-105 transition-all duration-300 shadow-lg">
+                    Learn More
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">System Architecture</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mb-8"></div>
+            </div>
+            
+            <div class="max-w-5xl mx-auto bg-gray-50 p-8 rounded-2xl hover-lift">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Presentation Layer</h3>
+                        <ul class="space-y-2 text-gray-600">
+                            <li>• Flutter UI Components</li>
+                            <li>• BLoC State Management</li>
+                            <li>• Responsive Design</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Domain Layer</h3>
+                        <ul class="space-y-2 text-gray-600">
+                            <li>• Entities (Job, Candidate)</li>
+                            <li>• Use Cases (MatchJobs, TailorResume)</li>
+                            <li>• Business Logic</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Data Layer</h3>
+                        <ul class="space-y-2 text-gray-600">
+                            <li>• Supabase (DB, Auth, Storage)</li>
+                            <li>• Node.js Backend Services</li>
+                            <li>• AI Model Integration</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-8 bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">AI Services</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-blue-800">Job Matching</h4>
+                            <p class="text-sm text-blue-600">ML model for candidate-job compatibility</p>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-purple-800">Resume Tailoring</h4>
+                            <p class="text-sm text-purple-600">NLP optimization for job descriptions</p>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-green-800">Mock Interviews</h4>
+                            <p class="text-sm text-green-600">Conversational AI with feedback</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technologies Section -->
+    <section class="py-20 bg-gradient-to-br from-blue-50 to-indigo-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gradient mb-6">Technologies Used</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mb-8"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Flutter</h3>
+                    <p class="text-gray-600">Cross-platform mobile development framework</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Supabase</h3>
+                    <p class="text-gray-600">PostgreSQL database with realtime capabilities</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Node.js</h3>
+                    <p class="text-gray-600">Backend services and API development</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">TensorFlow</h3>
+                    <p class="text-gray-600">Machine learning for job-candidate matching</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">OpenAI API</h3>
+                    <p class="text-gray-600">NLP for resume optimization and interviews</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">BLoC</h3>
+                    <p class="text-gray-600">State management for Flutter applications</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Firebase</h3>
+                    <p class="text-gray-600">Push notifications and analytics</p>
+                </div>
+
+                <div class="p-6 rounded-2xl hover-lift bg-white shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Docker</h3>
+                    <p class="text-gray-600">Containerization for backend services</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 gradient-blue">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-5xl font-bold text-white mb-6">Transform Your Hiring Process</h2>
+            <p class="text-xl text-white/90 mb-12 max-w-2xl mx-auto">
+                Ready to experience AI-powered recruitment for your organization or career?
+            </p>
+            <a href="#contact" 
+               class="inline-block bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-2xl">
+                Get Started Today
+            </a>
+        </div>
+    </section>
+
+    <script>
+        // Add scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'all 0.8s ease-out';
+            observer.observe(section);
+        });
+
+        // Add interactive hover effects
+        document.querySelectorAll('.hover-lift').forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                element.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                element.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
