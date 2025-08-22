@@ -21,7 +21,6 @@ const Contact = () => {
   useEffect(() => {
     const fetchApiUrl = async () => {
       try {
-        console.log('🔄 Fetching API URL from Supabase...');
          
         const { data, error } = await supabase
           .from('basic_info') // Replace with your actual table name
@@ -30,18 +29,12 @@ const Contact = () => {
           .single();
 
         if (error) {
-          console.error('❌ Error fetching configuration from Supabase:', error);
           // Fallback values if Supabase fails
           const fallbackUrl = 'https://5fnq5t8wu2.execute-api.ap-south-1.amazonaws.com/v1/send-email';
           const fallbackEmail = 'topai24apps@gmail.com';
           setApiUrl(fallbackUrl);
           setContactEmail(fallbackEmail);
-          console.log('🔄 Using fallback URL:', fallbackUrl);
-          console.log('🔄 Using fallback email:', fallbackEmail);
         } else {
-          console.log('✅ Successfully fetched from Supabase:', data);
-          console.log('🌐 API URL loaded:', data.resendApiUrl);
-          console.log('📧 Contact email loaded:', data.contactDetails);
           setApiUrl(data.resendApiUrl);
           setContactEmail(data.contactDetails);
         }
@@ -52,11 +45,8 @@ const Contact = () => {
         const fallbackEmail = 'topai24apps@gmail.com';
         setApiUrl(fallbackUrl);
         setContactEmail(fallbackEmail);
-        console.log('🔄 Using fallback URL after exception:', fallbackUrl);
-        console.log('🔄 Using fallback email after exception:', fallbackEmail);
       } finally {
         setIsLoadingConfig(false);
-        console.log('✅ Configuration loading completed');
       }
     };
 
@@ -115,7 +105,6 @@ const sendEmail = async (formData) => {
     throw new Error('API URL not loaded yet');
   }
 
-  console.log('📧 Sending email using URL:', apiUrl);
 
   try {
     const emailPayload = {
@@ -128,7 +117,6 @@ const sendEmail = async (formData) => {
       }),
     };
 
-    console.log('📤 Email payload:', emailPayload);
 
     const response = await fetch(apiUrl, {
       method: 'POST',
@@ -138,17 +126,13 @@ const sendEmail = async (formData) => {
       body: JSON.stringify(emailPayload),
     });
 
-    console.log('📨 Email API response status:', response.status);
 
     if (response.ok) {
-      console.log('✅ Email sent successfully!');
       return { success: true, status: response.status };
     } else {
-      console.error('❌ Email API returned error status:', response.status);
       throw new Error(`HTTP error! status: ${response.status}`);
     }
   } catch (error) {
-    console.error('❌ Email sending error:', error);
     throw error;
   }
 };
@@ -191,7 +175,6 @@ const sendEmail = async (formData) => {
       }
     } catch (error) {
       setSubmitError('Failed to send message. Please try again or contact us directly.');
-      console.error('Form submission error:', error);
     } finally {
       setIsSubmitting(false);
     }
