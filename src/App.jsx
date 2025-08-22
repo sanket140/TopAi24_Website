@@ -11,8 +11,6 @@ import BlogDetail from './pages/BlogDetail';
 import Testimonials from './pages/Testimonials';
 import Contact from './pages/Contact';
 import './App.css';
-console.log("Vercel - URL:", import.meta.env.VITE_SUPABASE_URL);
-console.log("Vercel - KEY:", import.meta.env.VITE_SUPABASE_ANON_KEY ? "Loaded ✅" : "Missing ❌");
 
 function App() {
   return (
