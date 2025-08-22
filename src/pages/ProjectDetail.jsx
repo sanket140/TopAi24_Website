@@ -237,61 +237,76 @@ const ProjectDetail = () => {
       )}
 
       {/* Project Overview */}
-      <section id="project-overview" className="py-20 bg-white">
-        <div className="container mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-5xl font-bold text-gradient mb-6">Project Overview</h2>
-            <div className="w-32 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto mb-10"></div>
-            <p className="text-xl md:text-2xl text-gray-700 max-w-5xl mx-auto leading-relaxed">
-              {project.description}
-            </p>
-          </motion.div>
+    {/* Project Overview */}
+<section id="project-overview" className="py-20 bg-white">
+  <div className="container mx-auto px-6">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      viewport={{ once: true }}
+      className="text-center mb-16"
+    >
+      <h2 className="text-5xl font-bold text-gradient mb-6">Project Overview</h2>
+      <div className="w-32 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto mb-10"></div>
+      <p className="text-xl md:text-2xl text-gray-700 max-w-5xl mx-auto leading-relaxed">
+        {project.description}
+      </p>
+    </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="text-center p-8 rounded-2xl hover-lift bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200"
-            >
-              <div className="text-6xl mb-4">🎯</div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-4">Purpose</h3>
-              <p className="text-gray-600">Solving real-world problems with innovative technology solutions</p>
-            </motion.div>
+    {/* Dynamic Project Overview Cards */}
+    <div className="grid md:grid-cols-3 gap-8">
+      {/* Purpose Card */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+        className="text-center p-8 rounded-2xl hover-lift bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200"
+      >
+        <div className="text-6xl mb-4">🎯</div>
+        <h3 className="text-2xl font-bold text-gray-800 mb-4">Purpose</h3>
+        <p className="text-gray-600">
+          {hero.description || project.description || 'Solving real-world problems with innovative technology solutions'}
+        </p>
+      </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="text-center p-8 rounded-2xl hover-lift bg-gradient-to-br from-green-50 to-green-100 border border-green-200"
-            >
-              <div className="text-6xl mb-4">⚡</div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-4">Performance</h3>
-              <p className="text-gray-600">Optimized for speed, scalability, and exceptional user experience</p>
-            </motion.div>
+      {/* Technology Card */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        viewport={{ once: true }}
+        className="text-center p-8 rounded-2xl hover-lift bg-gradient-to-br from-green-50 to-green-100 border border-green-200"
+      >
+        <div className="text-6xl mb-4">⚙️</div>
+        <h3 className="text-2xl font-bold text-gray-800 mb-4">Technology</h3>
+        <p className="text-gray-600">
+          {project.technologies.slice(0, 3).join(', ') + (project.technologies.length > 3 ? '...' : '')}
+        </p>
+      </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              viewport={{ once: true }}
-              className="text-center p-8 rounded-2xl hover-lift bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200"
-            >
-              <div className="text-6xl mb-4">🛡️</div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-4">Security</h3>
-              <p className="text-gray-600">Built with industry-standard security practices and protocols</p>
-            </motion.div>
-          </div>
+      {/* Category Card */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.4 }}
+        viewport={{ once: true }}
+        className="text-center p-8 rounded-2xl hover-lift bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200"
+      >
+        <div className="text-6xl mb-4">
+          {project.category === 'Mobile App' ? '📱' : 
+           project.category === 'Web App' ? '💻' : 
+           project.category === 'E-commerce' ? '🛒' : '⚡'}
         </div>
-      </section>
+        <h3 className="text-2xl font-bold text-gray-800 mb-4">Platform</h3>
+        <p className="text-gray-600">
+          {project.category || 'Cross-platform solution'}
+        </p>
+      </motion.div>
+    </div>
+  </div>
+</section>
 
       {/* Key Features */}
       <section className="py-20 bg-gradient-to-br from-gray-50 to-gray-100">
@@ -493,42 +508,62 @@ const ProjectDetail = () => {
       </section>
 
       {/* Performance Metrics */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-5xl font-bold text-gradient mb-6">Performance Metrics</h2>
-            <div className="w-32 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto mb-10"></div>
-          </motion.div>
+{/* Performance Metrics - Dynamic based on project data */}
+<section className="py-20 bg-white">
+  <div className="container mx-auto px-6">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      viewport={{ once: true }}
+      className="text-center mb-16"
+    >
+      <h2 className="text-5xl font-bold text-gradient mb-6">Performance Metrics</h2>
+      <div className="w-32 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto mb-10"></div>
+    </motion.div>
 
-          <div className="grid md:grid-cols-4 gap-8">
-            {[
-              { metric: '99.9%', label: 'Uptime', icon: '⚡' },
-              { metric: '<2s', label: 'Load Time', icon: '🚀' },
-              { metric: '100%', label: 'Responsive', icon: '📱' },
-              { metric: 'A+', label: 'Security Grade', icon: '🛡️' }
-            ].map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="text-center p-8 rounded-2xl hover-lift bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200"
-              >
-                <div className="text-5xl mb-4">{item.icon}</div>
-                <div className="text-4xl font-bold text-blue-600 mb-2">{item.metric}</div>
-                <p className="text-gray-600 font-medium">{item.label}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+    <div className="grid md:grid-cols-4 gap-8">
+      {/* Use custom metrics if available, otherwise fallback to default */}
+      {content.performance_metrics && content.performance_metrics.length > 0 ? (
+        content.performance_metrics.map((metric, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: index * 0.1 }}
+            viewport={{ once: true }}
+            className="text-center p-8 rounded-2xl hover-lift bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200"
+          >
+            <div className="text-5xl mb-4">{metric.icon || '📊'}</div>
+            <div className="text-4xl font-bold text-blue-600 mb-2">{metric.title || 'N/A'}</div>
+            <p className="text-gray-600 font-medium">{metric.description || 'Performance metric'}</p>
+          </motion.div>
+        ))
+      ) : (
+        // Fallback to default metrics if no custom metrics are provided
+        [
+          { metric: '99.9%', label: 'Uptime', icon: '⚡' },
+          { metric: '<2s', label: 'Load Time', icon: '🚀' },
+          { metric: '100%', label: 'Responsive', icon: '📱' },
+          { metric: 'A+', label: 'Security', icon: '🛡️' }
+        ].map((item, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: index * 0.1 }}
+            viewport={{ once: true }}
+            className="text-center p-8 rounded-2xl hover-lift bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200"
+          >
+            <div className="text-5xl mb-4">{item.icon}</div>
+            <div className="text-4xl font-bold text-blue-600 mb-2">{item.metric}</div>
+            <p className="text-gray-600 font-medium">{item.label}</p>
+          </motion.div>
+        ))
+      )}
+    </div>
+  </div>
+</section>
 
       {/* Call to Action */}
       <section className="py-20 gradient-blue">

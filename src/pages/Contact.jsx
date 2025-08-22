@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Mail, MapPin, Phone, Send, CheckCircle, Sparkles, Clock, Users, Award } from 'lucide-react';
-import { p } from 'framer-motion/client';
+import { supabase } from '../lib/supabase'; // Adjust the import path as needed
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +13,55 @@ const Contact = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
+  const [apiUrl, setApiUrl] = useState('');
+  const [contactEmail, setContactEmail] = useState('');
+  const [isLoadingConfig, setIsLoadingConfig] = useState(true);
+
+  // Fetch API URL from Supabase
+  useEffect(() => {
+    const fetchApiUrl = async () => {
+      try {
+        console.log('🔄 Fetching API URL from Supabase...');
+         
+        const { data, error } = await supabase
+          .from('basic_info') // Replace with your actual table name
+          .select('resendApiUrl, contactDetails') // Fetch both URL and email
+          .limit(1)
+          .single();
+
+        if (error) {
+          console.error('❌ Error fetching configuration from Supabase:', error);
+          // Fallback values if Supabase fails
+          const fallbackUrl = 'https://5fnq5t8wu2.execute-api.ap-south-1.amazonaws.com/v1/send-email';
+          const fallbackEmail = 'topai24apps@gmail.com';
+          setApiUrl(fallbackUrl);
+          setContactEmail(fallbackEmail);
+          console.log('🔄 Using fallback URL:', fallbackUrl);
+          console.log('🔄 Using fallback email:', fallbackEmail);
+        } else {
+          console.log('✅ Successfully fetched from Supabase:', data);
+          console.log('🌐 API URL loaded:', data.resendApiUrl);
+          console.log('📧 Contact email loaded:', data.contactDetails);
+          setApiUrl(data.resendApiUrl);
+          setContactEmail(data.contactDetails);
+        }
+      } catch (error) {
+        console.error('❌ Exception while fetching configuration:', error);
+        // Fallback values
+        const fallbackUrl = 'https://5fnq5t8wu2.execute-api.ap-south-1.amazonaws.com/v1/send-email';
+        const fallbackEmail = 'topai24apps@gmail.com';
+        setApiUrl(fallbackUrl);
+        setContactEmail(fallbackEmail);
+        console.log('🔄 Using fallback URL after exception:', fallbackUrl);
+        console.log('🔄 Using fallback email after exception:', fallbackEmail);
+      } finally {
+        setIsLoadingConfig(false);
+        console.log('✅ Configuration loading completed');
+      }
+    };
+
+    fetchApiUrl();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({
@@ -20,117 +69,126 @@ const Contact = () => {
       [e.target.name]: e.target.value
     });
   };
+function getHTMLBody({ fullName, email, phone, message }) {
+  return `
+  <!DOCTYPE html>
+  <html lang="en" style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
+  <head>
+    <meta charset="UTF-8">
+    <title>New Contact Message</title>
+  </head>
+  <body style="background-color: #ffffff; max-width: 600px; margin: auto; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
 
-  const sendEmail = async (formData) => {
-    const RESEND_API_KEY = process.env.REACT_APP_RESEND_API_KEY;
-    
-    try {
-      
-      const emailData = {
-        from: 'onboarding@resend.dev',
-        to: ['topai24apps@gmail.com'],
-        subject: `New Contact Form Submission: ${formData.subject}`,
-        html: `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f8fafc; border-radius: 12px;">
-            <div style="background: linear-gradient(135deg, #3b82f6, #8b5cf6); padding: 30px; border-radius: 12px; text-align: center; margin-bottom: 30px;">
-              <h1 style="color: white; margin: 0; font-size: 24px;">New Contact Form Submission</h1>
-              <p style="color: #e2e8f0; margin: 10px 0 0 0;">TopAi24 Website Contact Form</p>
-            </div>
-            
-            <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-              <div style="margin-bottom: 20px; padding: 15px; background: #f1f5f9; border-radius: 8px; border-left: 4px solid #3b82f6;">
-                <h3 style="margin: 0 0 10px 0; color: #1e293b; font-size: 16px;">Contact Information</h3>
-                <p style="margin: 5px 0; color: #475569;"><strong>Name:</strong> ${formData.name}</p>
-                <p style="margin: 5px 0; color: #475569;"><strong>Email:</strong> ${formData.email}</p>
-                ${formData.phone ? `<p style="margin: 5px 0; color: #475569;"><strong>Phone:</strong> ${formData.phone}</p>` : ''}
-                <p style="margin: 5px 0; color: #475569;"><strong>Subject:</strong> ${formData.subject}</p>
-              </div>
-              
-              <div style="padding: 15px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #8b5cf6;">
-                <h3 style="margin: 0 0 15px 0; color: #1e293b; font-size: 16px;">Message</h3>
-                <div style="color: #475569; line-height: 1.6; white-space: pre-wrap;">${formData.message}</div>
-              </div>
-              
-              <div style="margin-top: 20px; padding: 15px; background: #ecfdf5; border-radius: 8px; text-align: center;">
-                <p style="margin: 0; color: #059669; font-size: 14px;">
-                  <strong>📧 Sent at:</strong> ${new Date().toLocaleString('en-IN', { 
-                    timeZone: 'Asia/Kolkata',
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                  })} IST
-                </p>
-              </div>
-            </div>
-            
-            <div style="text-align: center; margin-top: 30px; color: #64748b; font-size: 14px;">
-              <p>This email was sent from the TopAi24 contact form</p>
-            </div>
-          </div>
-        `,
-      };
+    <h2 style="color: #333333;">📩 New Contact Message</h2>
 
-      const response = await fetch('https://cors-anywhere.herokuapp.com/https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${RESEND_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(emailData),
-      });
+    <table style="width: 100%; margin-top: 20px; border-collapse: collapse;">
+      <tr>
+        <td style="padding: 8px; font-weight: bold;">Full Name:</td>
+        <td style="padding: 8px;">${fullName}</td>
+      </tr>
+      <tr>
+        <td style="padding: 8px; font-weight: bold;">Email Address:</td>
+        <td style="padding: 8px;">${email}</td>
+      </tr>
+      <tr>
+        <td style="padding: 8px; font-weight: bold;">Phone Number:</td>
+        <td style="padding: 8px;">${phone}</td>
+      </tr>
+    </table>
 
-      const responseData = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(responseData.message || `HTTP error! status: ${response.status}`);
-      }
+    <h3 style="color: #333333; margin-top: 30px;">📝 Message:</h3>
+    <p style="background-color: #f0f0f0; padding: 15px; border-radius: 5px; white-space: pre-wrap;">
+      ${message}
+    </p>
 
-      return responseData;
-    } catch (error) {
-      console.error('Email sending error:', error);
-      
-      if (error.message.includes('CORS') || error.message.includes('fetch')) {
-        const mailtoLink = `mailto:topai24apps@gmail.com?subject=${encodeURIComponent(`Contact Form: ${formData.subject}`)}&body=${encodeURIComponent(`
-Name: ${formData.name}
-Email: ${formData.email}
-Phone: ${formData.phone || 'Not provided'}
-Subject: ${formData.subject}
+    <p style="font-size: 12px; color: #888888; margin-top: 40px; text-align: center;">
+      This message was sent from your website contact form.
+    </p>
 
-Message:
-${formData.message}
+  </body>
+  </html>
+  `;
+}
+  // Use dynamic API URL from Supabase
+const sendEmail = async (formData) => {
+  if (!apiUrl) {
+    throw new Error('API URL not loaded yet');
+  }
 
-Sent from TopAi24 Contact Form
-        `)}`;
-        
-        window.open(mailtoLink, '_blank');
-        return { success: true, method: 'mailto' };
-      }
-      
-      throw error;
+  console.log('📧 Sending email using URL:', apiUrl);
+
+  try {
+    const emailPayload = {
+      subject: formData.subject,
+      html: getHTMLBody({
+        fullName: formData.name,
+        email: formData.email,
+        phone: formData.phone || 'Not provided',
+        message: formData.message,
+      }),
+    };
+
+    console.log('📤 Email payload:', emailPayload);
+
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(emailPayload),
+    });
+
+    console.log('📨 Email API response status:', response.status);
+
+    if (response.ok) {
+      console.log('✅ Email sent successfully!');
+      return { success: true, status: response.status };
+    } else {
+      console.error('❌ Email API returned error status:', response.status);
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-  };
+  } catch (error) {
+    console.error('❌ Email sending error:', error);
+    throw error;
+  }
+};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Don't submit if API URL is still loading
+    if (isLoadingConfig) {
+      setSubmitError('Configuration is still loading. Please wait...');
+      return;
+    }
+
+    if (!apiUrl) {
+      setSubmitError('Unable to load configuration. Please refresh and try again.');
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitError('');
 
     try {
-      await sendEmail(formData);
-      setIsSubmitted(true);
+      const result = await sendEmail(formData);
       
-      setTimeout(() => {
-        setIsSubmitted(false);
-        setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          subject: '',
-          message: ''
-        });
-      }, 5000);
+      if (result.success) {
+        setIsSubmitted(true);
+        
+        // Reset form after 5 seconds
+        setTimeout(() => {
+          setIsSubmitted(false);
+          setFormData({
+            name: '',
+            email: '',
+            phone: '',
+            subject: '',
+            message: ''
+          });
+        }, 5000);
+      }
     } catch (error) {
       setSubmitError('Failed to send message. Please try again or contact us directly.');
       console.error('Form submission error:', error);
@@ -245,10 +303,10 @@ Sent from TopAi24 Contact Form
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-2">Email</h3>
                     <a 
-                      href="mailto:topai24apps@gmail.com"
+                      href={`mailto:${contactEmail}`}
                       className="text-gray-600 hover:text-blue-600 transition-colors duration-300 font-medium"
                     >
-                      topai24apps@gmail.com
+                      {contactEmail || 'Loading...'}
                     </a>
                   </div>
                 </div>
@@ -317,7 +375,7 @@ Sent from TopAi24 Contact Form
                   </p>
                 </div>
               ) : (
-                <div className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   {submitError && (
                     <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg">
                       {submitError}
@@ -416,12 +474,16 @@ Sent from TopAi24 Contact Form
                   </div>
 
                   <button
-                    type="button"
-                    onClick={handleSubmit}
-                    disabled={isSubmitting}
+                    type="submit"
+                    disabled={isSubmitting || isLoadingConfig}
                     className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-semibold flex items-center justify-center group shadow-xl hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 hover:-translate-y-1"
                   >
-                    {isSubmitting ? (
+                    {isLoadingConfig ? (
+                      <>
+                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                        Loading Configuration...
+                      </>
+                    ) : isSubmitting ? (
                       <>
                         <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
                         Sending...
@@ -437,7 +499,7 @@ Sent from TopAi24 Contact Form
                   <p className="text-sm text-gray-500 text-center">
                     By submitting this form, you agree to our privacy policy and terms of service.
                   </p>
-                </div>
+                </form>
               )}
               </div>
             </div>

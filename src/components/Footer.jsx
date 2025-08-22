@@ -1,46 +1,65 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Mail, MapPin } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 const Footer = () => {
+  const [footerData, setFooterData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchFooterData = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('basic_info') // 👈 replace with your actual table name
+          .select('*')
+          .single();
+
+        if (error) throw error;
+
+        setFooterData(data);
+      } catch (err) {
+        setError(err);
+        console.error("Error fetching footer data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFooterData();
+  }, []);
+
+  if (loading) return <p className="text-center py-4">Loading...</p>;
+  if (error) return <p className="text-center py-4 text-red-500">Error: {error.message}</p>;
+
   return (
-    <footer className="bg-gray-900 text-white py-16">
-      <div className="container mx-auto px-6">
-        <div className="grid md:grid-cols-2 gap-12">
-          <div>
-            <div className="flex items-center space-x-2 mb-6">
-              <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-lg">T</span>
-              </div>
-              <span className="text-2xl font-bold">TopAi24</span>
-            </div>
-            <p className="text-gray-300 leading-relaxed mb-8">
-              We create cutting-edge mobile experiences that connect brands with their audiences and drive measurable results — from concept to launch. We're a fast-paced, early-stage startup focused on innovation, exceptional user experience, and real-world impact. We seamlessly integrate AI-driven solutions into our applications to make them smarter, more intuitive, and more productive. Join us on this journey as we shape the next generation of intelligent digital products.
-            </p>
-          </div>
-          
-          <div>
-            <h3 className="text-xl font-semibold mb-6">Contact</h3>
-            <div className="space-y-4">
-              <div className="flex items-center space-x-3">
-                <MapPin size={20} className="text-blue-400" />
-                <span className="text-gray-300">Mumbai, India</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Mail size={20} className="text-blue-400" />
-                <a 
-                  href="mailto:topai24apps@gmail.com" 
-                  className="text-gray-300 hover:text-blue-400 transition-colors duration-200"
-                >
-                  topai24apps@gmail.com
-                </a>
-              </div>
-            </div>
-          </div>
+    <footer className="bg-gray-900 text-gray-200 py-8 px-4">
+      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-6">
+        {/* Left side - Branding & Description */}
+        <div>
+          <h2 className="text-2xl font-bold text-white">TopAi24</h2>
+          <p className="mt-2 text-gray-400">
+            {footerData?.footerDescription || "No description available."}
+          </p>
         </div>
+
+        {/* Right side - Contact */}
+        <div>
+          <h3 className="text-lg font-semibold text-white mb-2">Contact</h3>
+          <div className="flex items-center gap-2 mb-2">
+            <MapPin size={18} />
+            <span>{footerData?.cityName || "No city available"}</span>
+          </div>
+          <div className="flex items-center gap-2 mb-2">
+            <Mail size={18} />
+            <span>{footerData?.contactDetails || "topai24apps@gmail.com"}</span>
+          </div>
         
-        <div className="border-t border-gray-800 mt-12 pt-8 text-center">
-          <p className="text-gray-400">© 2025 TopAi24. All rights reserved.</p>
         </div>
+      </div>
+
+      <div className="text-center text-gray-500 mt-6 text-sm">
+        © 2025 TopAi24. All rights reserved.
       </div>
     </footer>
   );
