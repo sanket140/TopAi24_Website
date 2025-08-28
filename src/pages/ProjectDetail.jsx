@@ -393,8 +393,8 @@ const ProjectDetail = () => {
         </div>
       </section>
 
-      {/* System Architecture - Only show if architecture image exists */}
-      {architecture.image && (
+      {/* System Architecture - Show if any architecture data exists */}
+      {architecture && Object.keys(architecture).length > 0 && (
         <section className="py-20 bg-gradient-to-br from-blue-50 to-indigo-50">
           <div className="container mx-auto px-6">
             <motion.div
@@ -416,27 +416,70 @@ const ProjectDetail = () => {
                 viewport={{ once: true }}
                 className="hover-lift bg-white p-8 rounded-3xl shadow-2xl"
               >
-                <img src={architecture.image} 
-                     alt="Architecture Diagram" 
-                     className="w-full rounded-2xl shadow-lg"/>
+                {/* Architecture Image - Only show if exists */}
+                {architecture.image && (
+                  <img src={architecture.image} 
+                       alt="Architecture Diagram" 
+                       className="w-full rounded-2xl shadow-lg mb-8"/>
+                )}
 
-                {/* Architecture Details */}
-                <div className="grid md:grid-cols-3 gap-8 mt-8">
-                  <div className="p-6 bg-blue-50 rounded-xl text-center">
-                    <div className="text-4xl mb-4">🎨</div>
-                    <h3 className="font-bold text-lg mb-2">Frontend</h3>
-                    <p className="text-gray-600">{architecture.frontend || 'Modern UI/UX design'}</p>
-                  </div>
-                  <div className="p-6 bg-green-50 rounded-xl text-center">
-                    <div className="text-4xl mb-4">⚙️</div>
-                    <h3 className="font-bold text-lg mb-2">Backend</h3>
-                    <p className="text-gray-600">{architecture.backend || 'Scalable server architecture'}</p>
-                  </div>
-                  <div className="p-6 bg-purple-50 rounded-xl text-center">
-                    <div className="text-4xl mb-4">🗄️</div>
-                    <h3 className="font-bold text-lg mb-2">Database</h3>
-                    <p className="text-gray-600">{architecture.database || 'Optimized data storage'}</p>
-                  </div>
+                {/* Dynamic Architecture Details */}
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {Object.entries(architecture).map(([key, value], index) => {
+                    // Skip the image key as it's displayed separately
+                    if (key === 'image') return null;
+                    
+                    // Get appropriate icon and title for each architecture component
+                    const getArchitectureConfig = (key) => {
+                      const configs = {
+                        frontend: { icon: '🎨', title: 'Frontend', color: 'blue' },
+                        backend: { icon: '⚙️', title: 'Backend', color: 'green' },
+                        database: { icon: '🗄️', title: 'Database', color: 'purple' },
+                        deployment: { icon: '🚀', title: 'Deployment', color: 'indigo' },
+                        styling: { icon: '💅', title: 'Styling', color: 'pink' },
+                        features: { icon: '✨', title: 'Features', color: 'yellow' },
+                        animations: { icon: '🎬', title: 'Animations', color: 'red' },
+                        performance: { icon: '⚡', title: 'Performance', color: 'orange' },
+                        auth: { icon: '🔐', title: 'Authentication', color: 'cyan' },
+                        payments: { icon: '💳', title: 'Payments', color: 'emerald' },
+                        storage: { icon: '💾', title: 'Storage', color: 'slate' },
+                        ai: { icon: '🤖', title: 'AI/ML', color: 'violet' },
+                        ml: { icon: '🧠', title: 'Machine Learning', color: 'fuchsia' },
+                        maps: { icon: '🗺️', title: 'Maps', color: 'teal' },
+                        social: { icon: '👥', title: 'Social Features', color: 'rose' },
+                        analytics: { icon: '📊', title: 'Analytics', color: 'amber' },
+                        video: { icon: '🎥', title: 'Video', color: 'lime' },
+                        content: { icon: '📝', title: 'Content', color: 'sky' },
+                        health: { icon: '🏥', title: 'Health Integration', color: 'emerald' },
+                        state: { icon: '🔄', title: 'State Management', color: 'indigo' },
+                        media: { icon: '📱', title: 'Media', color: 'purple' },
+                        community: { icon: '🌐', title: 'Community', color: 'blue' }
+                      };
+                      
+                      return configs[key.toLowerCase()] || { 
+                        icon: '🔧', 
+                        title: key.charAt(0).toUpperCase() + key.slice(1), 
+                        color: 'gray' 
+                      };
+                    };
+
+                    const config = getArchitectureConfig(key);
+                    
+                    return (
+                      <motion.div
+                        key={key}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: index * 0.1 }}
+                        viewport={{ once: true }}
+                        className={`p-6 bg-${config.color}-50 rounded-xl text-center hover-lift border border-${config.color}-200`}
+                      >
+                        <div className="text-4xl mb-4">{config.icon}</div>
+                        <h3 className="font-bold text-lg mb-2 text-gray-800">{config.title}</h3>
+                        <p className="text-gray-600 text-sm">{value}</p>
+                      </motion.div>
+                    );
+                  })}
                 </div>
               </motion.div>
             </div>
